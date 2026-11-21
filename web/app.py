@@ -596,6 +596,21 @@ def create_app(out_dir=None, reviews_dir=None, project=None):
         except views.ViewError as error:
             return _problem(500, str(error))
 
+    @app.get("/api/evidence/{finding_id}")
+    def get_evidence(finding_id: str):
+        """The button "Treffer anzeigen": where the search terms of a finding stand in the lists."""
+        place = store.locate()
+        if place["mode"] != "real":
+            return _problem(404, "Zu den Beispieldaten gibt es keine Suchtreffer.")
+        data = optional_json(os.path.join(os.path.dirname(place["findings_path"]), "skeptic", "evidence.json"))
+        if not isinstance(data, dict):
+            return _problem(404, "Die Suchtreffer liegen nicht vor: %s/skeptic/evidence.json fehlt "
+                                 "(sie entstehen mit python -m pipeline.run)." % place["project"])
+        try:
+            return views.evidence(data.get(finding_id), finding_id)
+        except views.ViewError as error:
+            return _problem(404, str(error))
+
     @app.get("/api/bench")
     def get_bench():
         try:

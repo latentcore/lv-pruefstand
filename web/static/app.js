@@ -251,6 +251,57 @@ function euroEffect(quantity, unit, priceText) {
     panel.replaceChildren(el("p", { class: "no-image", text: message }));
   }
 
+  /* "Treffer anzeigen": where the search terms of the finding stand in the lists of the project
+     (GET /api/evidence/<id>, from out/<project>/skeptic/evidence.json). Loaded on the first click. */
+  function hitsBox(finding) {
+    const panel = el("div", { class: "hits-panel", hidden: "" });
+    const button = el("button", { type: "button", class: "hits-button", text: "Treffer anzeigen" });
+    button.addEventListener("click", async () => {
+      if (!panel.hidden) {
+        panel.hidden = true;
+        button.textContent = "Treffer anzeigen";
+        return;
+      }
+      panel.hidden = false;
+      button.textContent = "Treffer ausblenden";
+      if (panel.dataset.loaded) return;
+      panel.replaceChildren(el("p", { text: "Treffer werden geladen …" }));
+      try {
+        const response = await fetch("/api/evidence/" + encodeURIComponent(finding.id), { cache: "no-store" });
+        const body = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(body.error || "Fehler " + response.status);
+        panel.dataset.loaded = "1";
+        showHits(panel, body);
+      } catch (error) {
+        panel.replaceChildren(el("p", { class: "no-image", text: "Die Treffer konnten nicht geladen werden: " + error.message }));
+      }
+    });
+    return [button, panel];
+  }
+
+  function showHits(panel, answer) {
+    const lists = el("div", { class: "hit-lists" });
+    for (const entry of answer.hits_per_list) lists.append(el("span", { class: "hit-list", text: entry.doc + " · " + entry.hits }));
+    for (const doc of answer.lists_without_hit) lists.append(el("span", { class: "hit-list none", text: doc }));
+    const parts = [el("p", { class: "hits-sum", text: "Gesucht nach " + (answer.terms.join(", ") || "–") + " in " +
+      answer.lists_searched.length + " Listen: Treffer in " + answer.hits_per_list.length + ", keine in " +
+      answer.lists_without_hit.length + " (grau)." }), lists];
+    for (const hit of answer.hits) {
+      const where = [hit.doc, "Position " + (hit.item_no || "ohne Nummer")];
+      if (hit.page !== null) where.push("Seite " + hit.page);
+      parts.push(el("div", { class: "hit" },
+        el("div", {}, el("span", { class: "hit-where", text: where.join(" · ") }),
+          hit.cited ? el("span", { class: "hit-cited", text: "im Fund zitiert" }) : null),
+        el("div", { text: (hit.short_text ? hit.short_text + " · " : "") + "Begriffe: " + hit.terms.join(", ") }),
+        ...hit.snippets.map((snippet) => el("div", { class: "hit-snippet", text: snippet }))));
+    }
+    if (answer.hits_total > answer.hits.length) {
+      parts.push(el("p", { class: "hits-sum", text: "Gezeigt: " + answer.hits.length + " von " + answer.hits_total + " Treffern." }));
+    }
+    if (!answer.hits_total) parts.push(el("p", { text: "Keiner der Begriffe steht in einer der Listen." }));
+    panel.replaceChildren(...parts);
+  }
+
   function findingCard(finding, withReview) {
     const card = el("article", { class: "finding", "data-id": finding.id });
     card.append(el("div", { class: "head" },
@@ -272,6 +323,7 @@ function euroEffect(quantity, unit, priceText) {
       el("p", { text: finding.lists_searched.join(", ") || "keine angegeben" }),
       el("h3", { text: "Suchbegriffe" }),
       el("p", { text: finding.search_terms.join(", ") || "keine angegeben" }),
+      ...(state.data && state.data.mode === "real" ? hitsBox(finding) : []),
       el("h3", { text: "Gegenprüfung" }),
       el("p", { text: "Ergebnis: " + label(SKEPTIC, finding.skeptic.status) +
         (finding.skeptic.note ? " · Notiz: " + finding.skeptic.note : "") }),

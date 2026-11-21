@@ -20,7 +20,7 @@ Everything runs on one laptop, offline once the packages are installed.
 
 1. **Python 3.12** and a virtual environment: `python3.12 -m venv .venv`, then `source .venv/bin/activate` (Windows: `.venv\Scripts\activate`), then `python -m pip install -r requirements.txt`. This is the only step that needs the network.
 2. **The tests**: `python -m pytest -q`. Tests that need the organizer data skip without it. A test that fails after it looked for a file this copy leaves out (the stored results above, the opening finding of the deck, the pitch texts and numbers) is reported as skipped, with the missing path as the reason; any other failure stays a failure (`conftest.py`).
-3. **The screen**: `python -m web`, then open `http://127.0.0.1:8000/#pruefen`. The yellow line "Beispieldaten" shows that the synthetic samples are read. Views "Bauwerk" (trade matrix), "Fund" (the findings with their quotes), "Prüfen" (keys `B` bestätigt, `V` verworfen, `U` unklar), "Einzel-LV", "Live-Prüfung" (drop any GAEB 90 or GAEB XML file of your own: it is read in memory and checked by B1 to B12), "Vergleich" (needs a pipeline run on the organizer data) and "Messung". Details: [`web/README.md`](web/README.md).
+3. **The screen**: `python -m web`, then open `http://127.0.0.1:8000/#pruefen`. The yellow line "Beispieldaten" shows that the synthetic samples are read. Views "Bauwerk" (trade matrix), "Fund" (the findings with their quotes), "Prüfen" (keys `B` bestätigt, `V` verworfen, `U` unklar), "Einzel-LV", "Live-Prüfung" (drop any GAEB 90, GAEB XML or Excel file of your own: it is read in memory and checked by B1 to B12), "Vergleich" (needs a pipeline run on the organizer data) and "Messung". Details: [`web/README.md`](web/README.md).
 4. **The number checks on a GAEB 90 file of your own**: this copy holds no GAEB file (the organizer files are not published), so bring one. `python -m pipeline.lv.gaeb90 <file.D83> out/live` reads the file into `out/live/<project>/items.json` (its printed line names the folder), then `python -m pipeline.base.run out/live/<project>/items.json out/live/<project>/base_findings.json` runs the base checks B1 to B12 on it (`pipeline/base/README.md`).
 
 ## Run it on the organizer data
@@ -34,14 +34,14 @@ The full run `python -m pipeline.run` reads the organizer files from `data/` and
 | | What | Where |
 |---|---|---|
 | **Stored** (made earlier with a model; not in this copy) | the findings between the trade lists of the challenge project, with their quotes, and the verdicts of the counter-check (a second, independent model pass that tried to refute each finding) | not published |
-| **Live**, by code | reading the files: PDF lists, GAEB 90 and GAEB XML files, offer and print PDFs | `pipeline/pdf/`, `pipeline/lv/` |
+| **Live**, by code | reading the files: PDF lists, GAEB 90 and GAEB XML files, offer and print PDFs, Excel lists (.xlsx, a simple column mapping) | `pipeline/pdf/`, `pipeline/lv/` |
 | **Live** | every number check: the base checks B1 to B12 | `pipeline/base/` |
 | **Live** | the check of stored findings against the lists read on the laptop: evidence search, rule checks on the verdicts (a quote that is not on its page or a number without a source lowers the verdict), the merge | `pipeline/skeptic/`, `pipeline/common/quotes.py` |
 | **Live** | the page check: every quote is searched by code on its stated page of the source PDF, and the page is saved as an image with the quote in yellow | `pipeline/common/pagecheck.py` |
 | **Live** | the comparison of twins (one list in two formats) and stages (tender, offer, order) | `pipeline/diff/` |
 | **Live** | severity by fixed rules | `pipeline/common/severity.py`, [`docs/RISK_RULES.md`](docs/RISK_RULES.md) |
 | **Live** | the screen: trade matrix, findings, review (reviews go to `reviews/`), each list with its base checks, comparisons, measurements; the € effect from a typed price | `web/` |
-| **Live** | "Live-Prüfung": a GAEB file dropped into the page is read in memory, recalculated and checked by B1 to B12; nothing is stored, no price goes back to the page | `web/views.py` |
+| **Live** | "Live-Prüfung": a GAEB or Excel file dropped into the page is read in memory, recalculated and checked by B1 to B12; a GAEB 90 note shows the record lines of its items (price records masked); nothing is stored, no price goes back to the page | `web/views.py` |
 | **Live** | the exports (German question list .docx, marked list .xlsx, risk report .html and .pdf), built from the confirmed findings at the moment of the click | `web/export/` |
 
 ## Layout

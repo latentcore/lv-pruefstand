@@ -13,7 +13,10 @@ from fastapi.testclient import TestClient  # noqa: E402
 from pitch import chrome, numbers, shots  # noqa: E402
 
 BROWSER = chrome.browser()
-PROJECT = numbers.load()["project"]
+try:
+    PROJECT = numbers.load()["project"]
+except OSError:  # the public copy leaves pitch/numbers.json out; its tests that need no data still run
+    PROJECT = "79-222"
 SAMPLES = os.path.join(ROOT, "contract", "samples")
 OUT_FINDINGS = numbers.path(numbers.files(PROJECT)["out_findings"])
 needs_chrome = pytest.mark.skipif(not BROWSER, reason="no Chrome or Chromium on this machine")

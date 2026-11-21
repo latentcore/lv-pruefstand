@@ -9,7 +9,7 @@
   const STATUS = { confirmed: "bestätigt", rejected: "verworfen", unclear: "unklar", open: "offen" };
   const KIND = { normal: "", optional: "Bedarfsposition", alternative: "Wahlposition", lump_sum: "Pauschale",
     preliminary_note: "Vorbemerkung", heading: "Abschnitt" };
-  const FORMAT = { gaeb90: "GAEB 90", gaebxml: "GAEB DA XML", pdf: "PDF" };
+  const FORMAT = { gaeb90: "GAEB 90", gaebxml: "GAEB DA XML", pdf: "PDF", xlsx: "Excel" };
   const STAGE = { "83": "Ausschreibung (83)", "84": "Angebot (84)", "86": "Auftrag (86)", anfrage: "Anfrage" };
   const CHECK = {
     B1: "Menge × Einheitspreis = Gesamtbetrag", B2: "Zwischensummen und Gesamtsumme",
@@ -227,13 +227,37 @@
     return wrap;
   }
 
+  /* The record lines of the cited items as they stand in a GAEB 90 file; price records come masked
+     from the server (web/views.py, raw_record). */
+  function rawBox(entries) {
+    const box = el("div", { class: "raw", hidden: "" });
+    const button = el("button", { type: "button", class: "raw-button", text: "GAEB-Satz zeigen" });
+    button.addEventListener("click", () => {
+      const open = box.hidden;
+      box.hidden = !open;
+      button.textContent = open ? "GAEB-Satz ausblenden" : "GAEB-Satz zeigen";
+      if (!open || box.childNodes.length) return;
+      for (const entry of entries) {
+        const pre = el("pre", { class: "raw-lines" });
+        for (const line of entry.lines) {
+          pre.append(el("span", { class: "no", text: String(line.no).padStart(5, " ") + "  " }),
+            el("span", { class: line.masked ? "masked" : null, text: line.text }), document.createTextNode("\n"));
+        }
+        box.append(el("p", { text: "Pos. " + entry.item_no + " · Zeile " + entry.line + " der Datei" }), pre);
+      }
+    });
+    return [button, box];
+  }
+
   function findingList(findings, total) {
     const list = el("div", { class: "base-findings" });
     for (const finding of findings) {
-      list.append(el("div", { class: "base-finding" },
+      const row = el("div", { class: "base-finding" },
         el("span", { class: "badge sev-" + (finding.severity || ""), text: finding.check + " · " + label(SEVERITY, finding.severity) }),
         el("span", { class: "where", text: "Pos. " + (finding.item_nos || []).join(", ") }),
-        el("span", { text: finding.explanation_de || "" })));
+        el("span", { class: "text", text: finding.explanation_de || "" }));
+      if (finding.raw && finding.raw.length) row.append(...rawBox(finding.raw));
+      list.append(row);
     }
     if (total > findings.length) list.append(el("p", { class: "muted", text: "Gezeigt: " + findings.length + " von " + total + " Hinweisen." }));
     return list;
@@ -289,17 +313,20 @@
     const root = $("live-root");
     if (root.dataset.ready) return;
     root.dataset.ready = "1";
-    const input = el("input", { type: "file", id: "live-file", accept: ".d83,.d84,.d86,.x83,.x84,.x86,.D83,.D84,.D86,.X83,.X84,.X86" });
+    const input = el("input", { type: "file", id: "live-file",
+      accept: ".d83,.d84,.d86,.x83,.x84,.x86,.xlsx,.xlsm,.D83,.D84,.D86,.X83,.X84,.X86,.XLSX,.XLSM" });
     const chosen = el("span", { class: "chosen", text: "Keine Datei gewählt." });
     const zone = el("label", { class: "drop", for: "live-file" },
-      el("strong", { text: "GAEB-Datei hierher ziehen oder klicken" }),
-      el("span", { text: "GAEB 90 (.D83, .D84, .D86) oder GAEB DA XML (.X83, .X84, .X86). Die Datei wird nur in " +
-        "dieser Anwendung auf diesem Rechner gelesen und nicht gespeichert." }), chosen, input);
+      el("strong", { text: "GAEB-Datei oder Excel-Liste hierher ziehen oder klicken" }),
+      el("span", { text: "GAEB 90 (.D83, .D84, .D86), GAEB DA XML (.X83, .X84, .X86) oder Excel (.xlsx, Spalten wie " +
+        "Pos., Kurztext, Menge, Einheit). Die Datei wird nur in dieser Anwendung auf diesem Rechner gelesen und nicht " +
+        "gespeichert; kein Modell, kein Netz." }), chosen, input);
     const result = el("div", { id: "live-result", class: "live-result" });
     root.replaceChildren(zone, result);
     const send = async (file) => {
       if (!file) return;
       chosen.textContent = "Gewählt: " + file.name;
+      zone.classList.add("done");
       result.replaceChildren(el("p", { text: file.name + " wird gelesen und geprüft …" }));
       try {
         const response = await fetch("/api/live", { method: "POST", body: file,
@@ -344,8 +371,9 @@
         el("td", { class: "num", text: check.not_applicable ? "nicht anwendbar" : String(check.findings) })));
     }
     checks.append(body);
-    const parts = [tiles, facts, el("div", { class: "live-grid" }, checks, findingList(answer.findings, answer.findings_total))];
-    if (answer.warnings.length) parts.push(el("details", {}, el("summary", { text: "Warnungen des Lesers" }),
+    const parts = [tiles, facts, el("div", { class: "live-grid" }, el("div", { class: "table-card" }, checks),
+      findingList(answer.findings, answer.findings_total))];
+    if (answer.warnings.length) parts.push(el("details", { class: "warnings" }, el("summary", { text: "Warnungen des Lesers" }),
       el("ul", {}, ...answer.warnings.map((w) => el("li", { text: w })))));
     parts.push(el("h3", { text: "Positionen der Datei" }), itemTable(answer.rows, answer.findings, answer.rows_total));
     root.replaceChildren(...parts);
@@ -368,8 +396,9 @@
       el("h3", { text: "Ausschreibung gegen Auftrag: 8209.003" }),
       el("div", { class: "tiles" }, tile(h.tendered, "ausgeschrieben"), tile(h.ordered, "beauftragt"),
         tile(h.added.count, "kamen hinzu", "added"), tile(h.removed, "entfallen"), tile(h.renumbered, "umnummeriert")),
-      el("p", { text: "Ergebnis: " + h.verdict + ". Hinzugekommen: " + h.added.shown.join(", ") +
-        (h.added.count > h.added.shown.length ? " …" : "") + "." }),
+      el("p", { text: "Ergebnis: " + h.verdict + ". Hinzugekommen" +
+        (h.added.count > h.added.shown.length ? " (die ersten " + h.added.shown.length + ")" : "") + ":" }),
+      el("div", { class: "chips" }, ...h.added.shown.map((number) => el("span", { class: "chip", text: number }))),
       el("p", { class: "muted", text: (sections ? "Sie stehen nur im Auftrag, in: " + sections + ". " : "") +
         (h.zero_quantity ? "Der Auftrag führt sie mit Menge 0 und ohne Einheit." : "") }));
     const stage = el("table", { class: "diff" });
@@ -444,7 +473,7 @@
       el("p", { class: "muted", text: "Messlauf vom " + String(answer.measured_at || "").replace("T", " ") +
         ". Die Schwellen standen vor dem ersten Lauf fest (docs/PREREG.md). Jedes Ergebnis steht, wie es herauskam, " +
         "auch unter der Schwelle. M7 zählt Fehler, die wir selbst eingebaut haben." }),
-      table);
+      el("div", { class: "table-card" }, table));
   }
 
   window.LVViews = {

@@ -207,10 +207,13 @@ def test_javascript_function_is_one_small_pure_function_with_the_messages_of_the
 def test_typed_price_is_not_stored_and_not_sent_by_the_page_script():
     script = static_text("app.js")
     # The three requests of the page are the ones it had before W15.
-    assert re.findall(r"fetch\(\s*\"([^\"]+)\"", script) == ["/api/page-image/", "/api/reviews/", "/api/findings"]
+    # Saturday night added "/api/evidence/" (the button "Treffer anzeigen"): a GET with the finding id only.
+    assert re.findall(r"fetch\(\s*\"([^\"]+)\"", script) == [
+        "/api/page-image/", "/api/evidence/", "/api/reviews/", "/api/findings"]
+    assert 'fetch("/api/evidence/" + encodeURIComponent(finding.id), { cache: "no-store" })' in script
     # W8 added a fourth request: the GET of an export file. It has no body and names only the project
     # the page shows, so it can send no price.
-    assert script.count("fetch(") == 4
+    assert script.count("fetch(") == 5
     assert 'const shown = state.data ? "?project=" + encodeURIComponent(state.data.project) : "";' in script
     assert 'fetch(button.dataset.export + shown, { cache: "no-store" })' in script
     for word in ("XMLHttpRequest", "sendBeacon", "WebSocket", "EventSource", "sessionStorage", "indexedDB",
@@ -315,7 +318,8 @@ def test_endpoints_are_the_three_of_before(tmp_path):
     # Saturday evening added five GET endpoints and POST /api/live, which reads an upload in memory and
     # writes nothing (web/views.py; tests in test_web_views.py).
     export = ["/api/export/fragenliste", "/api/export/lv-markiert", "/api/export/risikobericht"]
-    views = ["/api/bench", "/api/diff", "/api/live", "/api/lv", "/api/lv/{doc}", "/api/matrix"]
+    views = ["/api/bench", "/api/diff", "/api/evidence/{finding_id}", "/api/live", "/api/lv", "/api/lv/{doc}",
+             "/api/matrix"]
     assert paths == sorted(export + views + ["/api/findings", "/api/page-image/{finding_id}/{index}",
                                              "/api/reviews/{finding_id}"])
     for route in app.routes:

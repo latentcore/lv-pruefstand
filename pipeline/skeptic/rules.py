@@ -62,7 +62,7 @@ _PLACEHOLDER = re.compile(r"\[[A-ZÄÖÜ]+_\d+\]")
 def number_key(token):
     """The value of a number token as a comparable string.
 
-    "35", "35,0" and "35,000" give "35"; "16,50" gives "16,5". A token with a
+    "35", "35,0" and "35,000" give "35"; "6,50" gives "6,5". A token with a
     "." ("11.4.60", ".48", "50.000") and an integer with a leading zero ("02")
     are identifiers and stay as written.
     """

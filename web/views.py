@@ -1,16 +1,19 @@
-"""Data for the views "Bauwerk", "Einzel-LV", "Live-Prüfung", "Vergleich" and "Messung".
+"""Data for the views "Bauwerk", "Einzel-LV", "Live-Prüfung", "Vergleich", "Messung" and for the button
+"Treffer anzeigen" of a finding.
 
 Each function returns what one view shows, built from fixed lists of keys, as in
 web/app.py: no unit_price and no total leaves this module. The prices of an uploaded
 GAEB file are used by code only (the base checks B1, B2, B7, B9 and the recalculation
 quantity x unit price = total) and come back as counts. An upload is read in memory;
-nothing is written to disk.
+nothing is written to disk. For a GAEB 90 upload each base finding carries the record lines of
+its cited items as they stand in the file ("GAEB-Satz zeigen"); a price record (23, 30) is
+replaced by a line that says so, so its unit price and total never reach the page.
 """
 import time
 
 from bench import table as bench_table
 from pipeline.base.run import run_all
-from pipeline.lv import gaeb90, gaebxml, model
+from pipeline.lv import gaeb90, gaebxml, model, xlsx
 
 NO_POSITION = ("heading", "preliminary_note")
 SEVERITY_ORDER = ("high", "medium", "info")
@@ -20,6 +23,17 @@ MAX_ROWS = 3000
 MAX_FINDINGS = 400
 MAX_WARNINGS = 20
 MAX_NUMBERS = 60
+MAX_HITS = 80
+MAX_SNIPPETS = 2
+# GAEB 90: records that continue an item after its first line (texts, prices). Only the record types of
+# RAW_SHOWN are shown as they stand; every other one (the price records 23 and 30 among them) is masked.
+RAW_FOLLOW = ("23", "24", "25", "26", "28", "30")
+RAW_SHOWN = ("11", "12", "20", "21", "24", "25", "26", "41", "T0", "T1")
+RAW_PRICE_RECORDS = ("23", "30")
+RAW_MASK = "Preissatz: Einheitspreis und Gesamtbetrag werden hier nicht gezeigt"
+RAW_MASK_OTHER = "Satz wird hier nicht gezeigt"
+MAX_RAW_LINES = 16
+MAX_RAW_ITEMS = 3
 
 
 class ViewError(ValueError):
@@ -198,8 +212,56 @@ def reader_for(file_name):
         return gaeb90
     if gaebxml.is_gaebxml_name(file_name):
         return gaebxml
-    raise ViewError("Nur GAEB-Dateien werden hier gelesen: .D83, .D84, .D86 (GAEB 90) oder .X83, .X84, .X86 "
-                    "(GAEB DA XML). PDF-Leistungsverzeichnisse liest die Pipeline (python -m pipeline.run).")
+    if xlsx.is_xlsx_name(file_name):
+        return xlsx
+    raise ViewError("Nur GAEB-Dateien und Excel-Listen werden hier gelesen: .D83, .D84, .D86 (GAEB 90), "
+                    ".X83, .X84, .X86 (GAEB DA XML) oder .xlsx. PDF-Leistungsverzeichnisse liest die Pipeline "
+                    "(python -m pipeline.run).")
+
+
+def gaeb90_lines(raw):
+    """The lines of a GAEB 90 file, decoded with the code page the reader picks."""
+    text = raw.decode(gaeb90.detect_encoding(raw), errors="replace")
+    return text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+
+
+def raw_record(lines, start):
+    """The record lines of one entry of a GAEB 90 file, from its first line (1-based) to the
+    next record that starts something new. A price record is replaced by RAW_MASK."""
+    out = []
+    index = start - 1
+    number = None
+    while 0 <= index < len(lines) and len(out) < MAX_RAW_LINES:
+        line = lines[index].rstrip()
+        kind = line[:2]
+        if out and kind not in RAW_FOLLOW:
+            break
+        if kind in ("21", "23"):
+            if number is not None and line[2:11] != number:
+                break  # the price record of the next item (a file of price records only)
+            number = line[2:11]
+        if kind in RAW_SHOWN:
+            out.append({"no": index + 1, "text": line, "masked": False})
+        else:
+            out.append({"no": index + 1, "text": kind + "  " + (RAW_MASK if kind in RAW_PRICE_RECORDS else RAW_MASK_OTHER),
+                        "masked": True})
+        index += 1
+    return out
+
+
+def attach_raw(views, records, raw):
+    """Give each base finding of a GAEB 90 upload the record lines of its cited items."""
+    lines = gaeb90_lines(raw)
+    starts, notes = {}, {}
+    for record in records:
+        if record.get("item_no") and isinstance(record.get("line"), int):
+            target = notes if record.get("kind") == "preliminary_note" else starts
+            target.setdefault(record["item_no"], []).append(record["line"])
+    for number, lines_of_notes in notes.items():
+        starts.setdefault(number, lines_of_notes)  # a note only when nothing else has the number
+    for view in views:
+        view["raw"] = [{"item_no": number, "line": start, "lines": raw_record(lines, start)}
+                       for number in view["item_nos"][:MAX_RAW_ITEMS] for start in starts.get(number, [])[:2]]
 
 
 def live(raw, file_name, clock=time.perf_counter):
@@ -217,13 +279,17 @@ def live(raw, file_name, clock=time.perf_counter):
     try:
         _project, records, entry = reader.parse_bytes(raw, name, project="live")
     except ValueError as error:
-        raise ViewError("Die Datei %s kann nicht als GAEB gelesen werden (%s)." % (name, error))
+        what = "Excel-Liste" if reader is xlsx else "GAEB"
+        raise ViewError("Die Datei %s kann nicht als %s gelesen werden (%s)."
+                        % (name, what, getattr(error, "german", None) or error))
     read_done = clock()
     findings, summary = run_all(records)
     checks_done = clock()
     check = entry.get("price_check") or {}
     positions = [record for record in records if model.is_position(record)]
-    views = [base_view(finding) for finding in findings]
+    views = [base_view(finding) for finding in findings][:MAX_FINDINGS]
+    if reader is gaeb90:
+        attach_raw(views, records, raw)
     return {
         "file": name,
         "format": entry.get("format"),
@@ -240,8 +306,8 @@ def live(raw, file_name, clock=time.perf_counter):
         "checks": [{"check": s["check"], "title": s["title"], "findings": s["findings"],
                     "not_applicable": bool(s["documents"]) and len(s["not_applicable"]) == s["documents"]}
                    for s in summary],
-        "findings": views[:MAX_FINDINGS],
-        "findings_total": len(views),
+        "findings": views,
+        "findings_total": len(findings),
         "rows": [item_row(record) for record in records][:MAX_ROWS],
         "rows_total": len(records),
     }
@@ -333,6 +399,34 @@ def diff(summary):
                          for s in run.get("sections_only_in_order") or [] if isinstance(s, dict)],
             "zero_quantity": bool(run.get("zero_items_are_the_added_items")),
         },
+    }
+
+
+# ---- Treffer anzeigen ---------------------------------------------------------------------
+
+def evidence(entry, finding_id):
+    """Where the search terms of one finding stand in the lists (out/<project>/skeptic/evidence.json,
+    written by python -m pipeline.run). Fixed keys; quantity and unit, never a price."""
+    if not isinstance(entry, dict):
+        raise ViewError("Zu %s liegen keine Suchtreffer vor." % finding_id)
+    hits = [hit for hit in entry.get("hits") or [] if isinstance(hit, dict)]
+    per_list = entry.get("hits_per_list") if isinstance(entry.get("hits_per_list"), dict) else {}
+    return {
+        "id": _text(entry.get("id")) or finding_id,
+        "terms": [_text(t) for t in entry.get("terms") or []],
+        "lists_searched": [_text(d) for d in entry.get("lists_searched") or []],
+        "hits_per_list": [{"doc": _text(doc), "hits": count} for doc, count in per_list.items()
+                          if isinstance(count, int) and not isinstance(count, bool)],
+        "lists_without_hit": [_text(d) for d in entry.get("lists_without_hit") or []],
+        "hits": [{
+            "doc": _text(hit.get("doc")), "item_no": _text(hit.get("item_no")),
+            "page": hit.get("page") if isinstance(hit.get("page"), int) and not isinstance(hit.get("page"), bool) else None,
+            "kind": _text(hit.get("kind")), "short_text": _text(hit.get("short_text")),
+            "quantity": _number(hit.get("quantity")), "unit": _text(hit.get("unit")),
+            "cited": hit.get("cited") is True, "terms": [_text(t) for t in hit.get("terms") or []],
+            "snippets": [_text(s) for s in (hit.get("snippets") or [])[:MAX_SNIPPETS]],
+        } for hit in hits[:MAX_HITS]],
+        "hits_total": len(hits),
     }
 
 
