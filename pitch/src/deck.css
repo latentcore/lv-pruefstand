@@ -1,0 +1,77 @@
+/* Style of the deck (W10): 1920 x 1080 px per slide, one slide per PDF page.
+   System fonts only, no outside resource. Every font size is in px and at least 24. */
+@page { size: 1920px 1080px; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #ffffff; color: #1a1a1a; }
+body { font: 36px/1.35 "Segoe UI", "Helvetica Neue", Arial, "Liberation Sans", "DejaVu Sans", sans-serif; }
+.slide { width: 1920px; height: 1080px; padding: 70px 100px 60px; overflow: hidden; position: relative;
+  break-after: page; page-break-after: always; display: flex; flex-direction: column; }
+.slide:last-child { break-after: auto; page-break-after: auto; }
+@media screen { body { background: #d9d9d9; } .slide { background: #ffffff; margin: 0 auto 24px; } }
+h1 { font-size: 64px; line-height: 1.15; margin: 0 0 40px; font-weight: 700; }
+p, ul, dl, figure, blockquote { margin: 0; padding: 0; }
+ul { list-style: none; }
+b { font-weight: 700; }
+.n.open { background: #ffe680; padding: 0 8px; }
+.kicker { font-size: 32px; color: #555555; margin-bottom: 12px; }
+.line { font-size: 36px; margin-top: auto; padding-top: 24px; border-top: 3px solid #1a1a1a; }
+
+/* slide 1: the finding */
+#finding h1 { margin-bottom: 28px; }
+.sources { display: flex; gap: 40px; }
+.source { flex: 1 1 0; border: 3px solid #1a1a1a; padding: 22px 28px; }
+.source figcaption, .question figcaption { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+.source blockquote { font-size: 28px; line-height: 1.35; overflow-wrap: anywhere; }
+.source mark { background: #ffe680; color: inherit; font-weight: 700; padding: 0 4px; }
+.question { margin-top: 28px; border-left: 12px solid #1a1a1a; padding-left: 28px; }
+.question blockquote { font-size: 32px; line-height: 1.3; }
+.foot { margin-top: auto; display: flex; gap: 40px; align-items: baseline; font-size: 26px; }
+.foot .mark { background: #ffe680; font-weight: 700; padding: 6px 16px; white-space: nowrap; }
+.foot .mark.confirmed { background: #bfe8c4; }
+.foot .mark.plain { background: none; }
+.foot .status { white-space: nowrap; }
+
+/* slide 2: the problem */
+.figures { display: flex; gap: 90px; margin: 10px 0 50px; font-size: 40px; }
+.figures b { font-size: 120px; line-height: 1; display: block; }
+.kinds li { font-size: 40px; padding: 18px 0; border-top: 2px solid #b3b3b3; display: flex; gap: 40px; }
+.kinds b { flex: 0 0 330px; }
+
+/* slide 3: the solution */
+.shots { display: flex; gap: 40px; }
+.shots figure { flex: 1 1 0; }
+.shots img, .shot-missing { width: 840px; height: 472px; border: 2px solid #1a1a1a; display: block; }
+.shot-missing { background: #d9d9d9; color: #1a1a1a; font-size: 28px; padding: 40px; display: flex; align-items: center; }
+.shots figcaption { font-size: 30px; margin-top: 16px; }
+.shots figcaption b { margin-right: 14px; }
+
+/* slide 4: architecture. Column = step, row = who does it. */
+#architecture { padding-left: 60px; padding-right: 60px; }
+.flow { display: grid; grid-template-columns: 130px repeat(7, minmax(0, 1fr)); grid-template-rows: repeat(3, 215px); gap: 14px 0; }
+.lane { grid-column: 1 / -1; padding: 18px 16px; font-size: 30px; font-weight: 700; }
+.lane-code { grid-row: 1; background: #e6effa; }
+.lane-model { grid-row: 2; background: #fdeed2; }
+.lane-human { grid-row: 3; background: #e3f3e5; }
+.node { margin: 16px 8px 16px 44px; padding: 10px 14px; background: #ffffff; border: 3px solid #1a1a1a; font-size: 28px;
+  line-height: 1.2; font-weight: 700; position: relative; display: flex; flex-direction: column; justify-content: center;
+  overflow-wrap: anywhere; }
+.node small { font-size: 24px; font-weight: 400; display: block; margin-top: 6px; }
+.node::before { content: "\2192"; position: absolute; left: -40px; top: 50%; transform: translateY(-50%); font-size: 36px; font-weight: 400; }
+.node.step-1::before { content: none; }
+.node.code { grid-row: 1; } .node.model { grid-row: 2; } .node.human { grid-row: 3; }
+.step-1 { grid-column: 2; } .step-2 { grid-column: 3; } .step-3 { grid-column: 4; } .step-4 { grid-column: 5; }
+.step-5 { grid-column: 6; } .step-6 { grid-column: 7; } .step-7 { grid-column: 8; }
+
+/* slide 5: stack */
+.stack { display: grid; grid-template-columns: 300px 1fr; row-gap: 0; font-size: 40px; }
+.stack dt, .stack dd { margin: 0; padding: 26px 0; border-top: 2px solid #b3b3b3; }
+.stack dt { font-weight: 700; }
+
+/* slide 6: proof */
+.proof li { font-size: 44px; padding: 20px 0; border-top: 2px solid #b3b3b3; }
+.proof b { font-size: 72px; line-height: 1; margin-right: 12px; }
+
+/* slide 7: Monday, team, ask */
+.monday li { font-size: 48px; padding: 22px 0; border-top: 2px solid #b3b3b3; }
+.team { margin-top: auto; font-size: 36px; }
+.ask { font-size: 64px; font-weight: 700; line-height: 1.15; margin-top: 12px; }

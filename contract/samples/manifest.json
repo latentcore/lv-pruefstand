@@ -1,0 +1,19 @@
+[
+  {"doc": "LV_91", "file": "LV_91_Estrich.pdf",
+   "sha256": "9191919191919191919191919191919191919191919191919191919191919191",
+   "format": "pdf", "stage": "anfrage", "pages": 3, "items": 4,
+   "headings": 1, "preliminary_notes": 1, "unparsed_lines": 0, "warnings": []},
+  {"doc": "LV_92", "file": "LV_92_Bodenbelag.pdf",
+   "sha256": "9292929292929292929292929292929292929292929292929292929292929292",
+   "format": "pdf", "stage": "anfrage", "pages": 4, "items": 2,
+   "headings": 0, "preliminary_notes": 0, "unparsed_lines": 0, "warnings": []},
+  {"doc": "AN_93", "file": "AN_93_Bodenbelag.X84",
+   "sha256": "9393939393939393939393939393939393939393939393939393939393939393",
+   "format": "gaebxml", "stage": "84", "pages": null, "items": 1,
+   "unparsed_lines": 0},
+  {"doc": "LV_94", "file": "LV_94_Malerarbeiten.pdf",
+   "sha256": "9494949494949494949494949494949494949494949494949494949494949494",
+   "format": "pdf", "stage": "anfrage", "pages": 2, "items": 0,
+   "headings": 0, "preliminary_notes": 0, "unparsed_lines": 37,
+   "warnings": ["page layout not recognized; no item was read"]}
+]

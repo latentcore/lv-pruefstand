@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>LV-Prüfstand</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/views.css">
+</head>
+<body>
+<header class="top">
+  <h1>LV-Prüfstand</h1>
+  <p class="project">Projekt <span id="project">…</span></p>
+  <nav class="tabs" aria-label="Ansichten">
+    <button type="button" class="tab" id="tab-bauwerk" data-view="bauwerk">Bauwerk</button>
+    <button type="button" class="tab" id="tab-fund" data-view="fund">Fund</button>
+    <button type="button" class="tab" id="tab-pruefen" data-view="pruefen">Prüfen</button>
+    <button type="button" class="tab" id="tab-einzel" data-view="einzel">Einzel-LV</button>
+    <button type="button" class="tab" id="tab-live" data-view="live">Live-Prüfung</button>
+    <button type="button" class="tab" id="tab-vergleich" data-view="vergleich">Vergleich</button>
+    <button type="button" class="tab" id="tab-messung" data-view="messung">Messung</button>
+  </nav>
+</header>
+<div id="messages" aria-live="polite"></div>
+<main>
+  <section id="view-bauwerk" class="view" hidden><div id="bauwerk-root"></div></section>
+  <section id="view-einzel" class="view" hidden><div id="einzel-root"></div></section>
+  <section id="view-live" class="view" hidden><div id="live-root"></div></section>
+  <section id="view-vergleich" class="view" hidden><div id="vergleich-root"></div></section>
+  <section id="view-messung" class="view" hidden><div id="messung-root"></div></section>
+  <section id="view-fund" class="view" hidden>
+    <div class="export-bar">
+      <button type="button" class="export-button" data-export="/api/export/fragenliste" data-name="Fragen_und_Klaerungsliste.docx">Fragenliste exportieren</button>
+      <button type="button" class="export-button" data-export="/api/export/lv-markiert" data-name="LV_markiert.xlsx">LV markiert exportieren</button>
+      <button type="button" class="export-button" data-export="/api/export/risikobericht" data-name="Risikobericht.pdf">Risikobericht exportieren</button>
+      <span class="export-note" aria-live="polite"></span>
+    </div>
+    <nav id="fund-list" class="finding-list" aria-label="Alle Funde"></nav>
+    <div id="fund-detail" class="detail"></div>
+  </section>
+  <section id="view-pruefen" class="view" hidden>
+    <div id="counters" class="counters" aria-live="polite"></div>
+    <div id="pruefen-scroll" class="review-scroll">
+      <div class="review-bar">
+        <label class="switch">
+          <input type="checkbox" id="k3-switch" checked>
+          <span>Prüffilter: nur Funde, die die Gegenprüfung bestanden haben und deren Zitate per Code geprüft sind</span>
+        </label>
+        <p id="k3-note" class="k3-note"></p>
+        <div class="export-bar">
+          <button type="button" class="export-button" data-export="/api/export/fragenliste" data-name="Fragen_und_Klaerungsliste.docx">Fragenliste exportieren</button>
+          <button type="button" class="export-button" data-export="/api/export/lv-markiert" data-name="LV_markiert.xlsx">LV markiert exportieren</button>
+          <button type="button" class="export-button" data-export="/api/export/risikobericht" data-name="Risikobericht.pdf">Risikobericht exportieren</button>
+          <span class="export-note" aria-live="polite"></span>
+        </div>
+      </div>
+      <div id="pruefen-detail" class="detail"></div>
+      <p class="keys">Tasten: <kbd>B</kbd> bestätigt · <kbd>V</kbd> verworfen · <kbd>U</kbd> unklar · <kbd>←</kbd> <kbd>→</kbd> blättern · <kbd>Enter</kbd> im Textfeld speichert und verlässt das Feld</p>
+    </div>
+    <form id="review-form" class="review-form" autocomplete="off">
+      <div class="form-row">
+        <div class="status-buttons">
+          <button type="button" class="status-button confirmed" data-status="confirmed">Bestätigt <kbd>B</kbd></button>
+          <button type="button" class="status-button rejected" data-status="rejected">Verworfen <kbd>V</kbd></button>
+          <button type="button" class="status-button unclear" data-status="unclear">Unklar <kbd>U</kbd></button>
+        </div>
+        <div class="queue-nav">
+          <button type="button" id="prev">← Zurück</button>
+          <span id="position"></span>
+          <button type="button" id="next">Weiter →</button>
+        </div>
+      </div>
+      <label class="field wide">Kommentar (ein Satz)
+        <input type="text" id="comment" maxlength="500">
+      </label>
+      <label class="field">Schätzung in € (optional)
+        <input type="text" id="eur" inputmode="decimal" placeholder="z. B. 1.500">
+      </label>
+      <label class="field">Geprüft von
+        <input type="text" id="by" maxlength="100" placeholder="z. B. Kalkulator (Mentor)">
+      </label>
+      <p id="save-note" class="save-note" aria-live="polite"></p>
+    </form>
+  </section>
+</main>
+<script src="/static/views.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

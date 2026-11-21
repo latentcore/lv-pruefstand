@@ -1,0 +1,12 @@
+# Stack of MASTER_PLAN §8. The pipeline and the app run offline once these are installed.
+fastapi
+uvicorn
+lxml
+PyMuPDF
+pandas
+openpyxl
+python-docx
+
+# Tests
+pytest
+httpx

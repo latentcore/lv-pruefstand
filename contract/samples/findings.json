@@ -1,0 +1,41 @@
+[
+  {"id": "X1-f0a30d", "check": "X1", "layer": "between_lists", "type": "double_assignment", "severity": "high",
+   "handover": ["LV_91", "LV_92"],
+   "sources": [
+     {"doc": "LV_91", "item_no": "1", "page": 1,
+      "quote": "Die Randdämmstreifen werden vom AN Estrich geliefert und eingebaut."},
+     {"doc": "LV_92", "item_no": "2.10", "page": 3,
+      "quote": "Randdämmstreifen an allen aufgehenden Bauteilen liefern und einbauen"}
+   ],
+   "lists_searched": ["LV_91", "LV_92"], "search_terms": ["Randdämmstreifen", "Randstreifen"],
+   "explanation_de": "Die Randdämmstreifen stehen in der Vorbemerkung des Estrichs und als eigene Position beim Bodenbelag.",
+   "question_de": "Welches Gewerk liefert die Randdämmstreifen und baut sie ein?",
+   "exposure": {"quantity": 85.0, "unit": "m"}, "quotes_verified": true, "origin": "model+code",
+   "skeptic": {"status": "survived", "note": "Synthetic sample: no other list assigns the edge strips."}},
+  {"id": "X2-5b4bb3", "check": "X2", "layer": "between_lists", "type": "contradiction", "severity": "medium",
+   "handover": ["LV_91", "LV_92"],
+   "sources": [
+     {"doc": "LV_91", "item_no": "1.10", "page": 2,
+      "quote": "schwimmender Estrich auf Wärmedämmung, Nenndicke 65 mm"},
+     {"doc": "LV_92", "item_no": "2.20", "page": 4,
+      "quote": "Aufbauhöhe laut Planung: Estrich 50 mm"}
+   ],
+   "lists_searched": ["LV_91", "LV_92"], "search_terms": ["Nenndicke", "Aufbauhöhe", "Estrich"],
+   "explanation_de": "Der Estrich ist mit 65 mm ausgeschrieben, der Bodenbelag rechnet mit 50 mm Estrich.",
+   "question_de": "Welche Estrichdicke gilt für die Aufbauhöhe?",
+   "exposure": {"quantity": 120.0, "unit": "m2"}, "quotes_verified": true, "origin": "model+code",
+   "skeptic": {"status": "weakened", "note": "Synthetic sample: the second value may be a planning note, not a requirement."}},
+  {"id": "S-acff08", "check": "S", "layer": "single_list", "type": "contradiction", "severity": "info",
+   "handover": ["LV_91"],
+   "sources": [
+     {"doc": "LV_91", "item_no": "1.40", "page": 3,
+      "quote": "Die Baustelleneinrichtung wird pauschal vergütet."},
+     {"doc": "LV_91", "item_no": "1.40", "page": 3,
+      "quote": "Die Baustelleneinrichtung wird nach Aufwand im Stundenlohn vergütet."}
+   ],
+   "lists_searched": ["LV_91"], "search_terms": [],
+   "explanation_de": "Dieselbe Position nennt zwei Vergütungsarten.",
+   "question_de": "Wird die Baustelleneinrichtung pauschal oder nach Aufwand vergütet?",
+   "exposure": {"quantity": null, "unit": null}, "quotes_verified": true, "origin": "model+code",
+   "skeptic": {"status": "survived", "note": "Synthetic sample."}}
+]

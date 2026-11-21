@@ -1,0 +1,438 @@
+{
+ "check": "page by page, by code (pipeline/pdf/pagecheck_lists.py)",
+ "lists_checked": [
+  "LV_18",
+  "LV_14c",
+  "LV_02",
+  "LV_17",
+  "LV_00"
+ ],
+ "totals": {
+  "pages_checked": 115,
+  "items_on_page": 388,
+  "items_in_reader": 388,
+  "items_matched": 388,
+  "quantity_unit_equal": 388,
+  "other_numbers_on_page": 41,
+  "other_numbers_matched": 41,
+  "continued": 51,
+  "differences": 0
+ },
+ "lists": [
+  {
+   "doc": "LV_18",
+   "pages_checked": 14,
+   "pages_without_header": [
+    14
+   ],
+   "summary_pages": [],
+   "items_on_page": 38,
+   "items_in_reader": 38,
+   "items_matched": 38,
+   "quantity_unit_equal": 38,
+   "other_numbers_on_page": 8,
+   "other_numbers_matched": 8,
+   "continued": 8,
+   "differences": 0,
+   "file": "LV_18_Estrich.pdf",
+   "sha256": "d53fc3f6557f3c0540e6dbe6214480e03f5237205291135ae182611b06ac62a4",
+   "continued_items": [
+    {
+     "doc": "LV_18",
+     "page": 2,
+     "item_no": "11.3.30",
+     "quantity_page": 3
+    },
+    {
+     "doc": "LV_18",
+     "page": 3,
+     "item_no": "11.3.90",
+     "quantity_page": 4
+    },
+    {
+     "doc": "LV_18",
+     "page": 4,
+     "item_no": "11.4.10",
+     "quantity_page": 5
+    },
+    {
+     "doc": "LV_18",
+     "page": 7,
+     "item_no": "11.5.10",
+     "quantity_page": 8
+    },
+    {
+     "doc": "LV_18",
+     "page": 8,
+     "item_no": "11.5.30",
+     "quantity_page": 9
+    },
+    {
+     "doc": "LV_18",
+     "page": 9,
+     "item_no": "11.5.70",
+     "quantity_page": 10
+    },
+    {
+     "doc": "LV_18",
+     "page": 10,
+     "item_no": "11.5.110",
+     "quantity_page": 11
+    },
+    {
+     "doc": "LV_18",
+     "page": 11,
+     "item_no": "11.6.30",
+     "quantity_page": 12
+    }
+   ],
+   "difference_list": []
+  },
+  {
+   "doc": "LV_14c",
+   "pages_checked": 7,
+   "pages_without_header": [
+    7
+   ],
+   "summary_pages": [
+    7
+   ],
+   "items_on_page": 14,
+   "items_in_reader": 14,
+   "items_matched": 14,
+   "quantity_unit_equal": 14,
+   "other_numbers_on_page": 0,
+   "other_numbers_matched": 0,
+   "continued": 5,
+   "differences": 0,
+   "file": "LV_14c_Industriebodenheizung.pdf",
+   "sha256": "221b365557181ea897ca992f9a3c2bfd86e11a79f939994b084837f6e6afb085",
+   "continued_items": [
+    {
+     "doc": "LV_14c",
+     "page": 1,
+     "item_no": ".1",
+     "quantity_page": 2
+    },
+    {
+     "doc": "LV_14c",
+     "page": 2,
+     "item_no": ".2",
+     "quantity_page": 3
+    },
+    {
+     "doc": "LV_14c",
+     "page": 3,
+     "item_no": ".3",
+     "quantity_page": 4
+    },
+    {
+     "doc": "LV_14c",
+     "page": 4,
+     "item_no": ".8",
+     "quantity_page": 5
+    },
+    {
+     "doc": "LV_14c",
+     "page": 5,
+     "item_no": ".10",
+     "quantity_page": 6
+    }
+   ],
+   "difference_list": []
+  },
+  {
+   "doc": "LV_02",
+   "pages_checked": 10,
+   "pages_without_header": [
+    10
+   ],
+   "summary_pages": [],
+   "items_on_page": 11,
+   "items_in_reader": 11,
+   "items_matched": 11,
+   "quantity_unit_equal": 11,
+   "other_numbers_on_page": 2,
+   "other_numbers_matched": 2,
+   "continued": 3,
+   "differences": 0,
+   "file": "LV_02_PVC_Fussbodenbelag.pdf",
+   "sha256": "8c1d62fcb6c37a3c5d2b74f7eea78496f1cc881579b44d53f4f90ae799a2c7ab",
+   "continued_items": [
+    {
+     "doc": "LV_02",
+     "page": 6,
+     "item_no": "14.1.30",
+     "quantity_page": 7
+    },
+    {
+     "doc": "LV_02",
+     "page": 7,
+     "item_no": "14.1.60",
+     "quantity_page": 8
+    },
+    {
+     "doc": "LV_02",
+     "page": 8,
+     "item_no": "14.1.100",
+     "quantity_page": 9
+    }
+   ],
+   "difference_list": []
+  },
+  {
+   "doc": "LV_17",
+   "pages_checked": 16,
+   "pages_without_header": [
+    16
+   ],
+   "summary_pages": [],
+   "items_on_page": 56,
+   "items_in_reader": 56,
+   "items_matched": 56,
+   "quantity_unit_equal": 56,
+   "other_numbers_on_page": 4,
+   "other_numbers_matched": 4,
+   "continued": 6,
+   "differences": 0,
+   "file": "LV_17_Trockenbau.pdf",
+   "sha256": "901f454e85634c77f6aa987592ac0ddb00da87741f69cb346acf42f2ee409958",
+   "continued_items": [
+    {
+     "doc": "LV_17",
+     "page": 2,
+     "item_no": "10.1.50",
+     "quantity_page": 3
+    },
+    {
+     "doc": "LV_17",
+     "page": 3,
+     "item_no": "10.1.70",
+     "quantity_page": 4
+    },
+    {
+     "doc": "LV_17",
+     "page": 6,
+     "item_no": "10.1.240",
+     "quantity_page": 7
+    },
+    {
+     "doc": "LV_17",
+     "page": 8,
+     "item_no": "10.1.330",
+     "quantity_page": 9
+    },
+    {
+     "doc": "LV_17",
+     "page": 9,
+     "item_no": "10.1.390",
+     "quantity_page": 10
+    },
+    {
+     "doc": "LV_17",
+     "page": 11,
+     "item_no": "10.2.20",
+     "quantity_page": 12
+    }
+   ],
+   "difference_list": []
+  },
+  {
+   "doc": "LV_00",
+   "pages_checked": 68,
+   "pages_without_header": [
+    68
+   ],
+   "summary_pages": [
+    68
+   ],
+   "items_on_page": 269,
+   "items_in_reader": 269,
+   "items_matched": 269,
+   "quantity_unit_equal": 269,
+   "other_numbers_on_page": 27,
+   "other_numbers_matched": 27,
+   "continued": 29,
+   "differences": 0,
+   "file": "LV_00_Roh_und_Erdauarbeiten.pdf",
+   "sha256": "570819f4a5a5b59ab9932e440bdd884baf14e0f909d9dd73810ff51e968dd024",
+   "continued_items": [
+    {
+     "doc": "LV_00",
+     "page": 14,
+     "item_no": "2.2.90",
+     "quantity_page": 15
+    },
+    {
+     "doc": "LV_00",
+     "page": 16,
+     "item_no": "2.3.40",
+     "quantity_page": 17
+    },
+    {
+     "doc": "LV_00",
+     "page": 17,
+     "item_no": "2.3.90",
+     "quantity_page": 18
+    },
+    {
+     "doc": "LV_00",
+     "page": 18,
+     "item_no": "2.3.130",
+     "quantity_page": 19
+    },
+    {
+     "doc": "LV_00",
+     "page": 19,
+     "item_no": "2.4.10",
+     "quantity_page": 20
+    },
+    {
+     "doc": "LV_00",
+     "page": 22,
+     "item_no": "3.1.20",
+     "quantity_page": 23
+    },
+    {
+     "doc": "LV_00",
+     "page": 23,
+     "item_no": "3.1.40",
+     "quantity_page": 24
+    },
+    {
+     "doc": "LV_00",
+     "page": 24,
+     "item_no": "3.1.62",
+     "quantity_page": 25
+    },
+    {
+     "doc": "LV_00",
+     "page": 25,
+     "item_no": "3.1.80",
+     "quantity_page": 26
+    },
+    {
+     "doc": "LV_00",
+     "page": 26,
+     "item_no": "3.1.100",
+     "quantity_page": 27
+    },
+    {
+     "doc": "LV_00",
+     "page": 27,
+     "item_no": "3.1.140",
+     "quantity_page": 28
+    },
+    {
+     "doc": "LV_00",
+     "page": 29,
+     "item_no": "3.1.220",
+     "quantity_page": 30
+    },
+    {
+     "doc": "LV_00",
+     "page": 32,
+     "item_no": "3.1.340",
+     "quantity_page": 33
+    },
+    {
+     "doc": "LV_00",
+     "page": 36,
+     "item_no": "3.1.480",
+     "quantity_page": 37
+    },
+    {
+     "doc": "LV_00",
+     "page": 37,
+     "item_no": "3.1.500",
+     "quantity_page": 38
+    },
+    {
+     "doc": "LV_00",
+     "page": 39,
+     "item_no": "3.1.570",
+     "quantity_page": 40
+    },
+    {
+     "doc": "LV_00",
+     "page": 43,
+     "item_no": "3.2.130",
+     "quantity_page": 44
+    },
+    {
+     "doc": "LV_00",
+     "page": 44,
+     "item_no": "3.2.160",
+     "quantity_page": 45
+    },
+    {
+     "doc": "LV_00",
+     "page": 45,
+     "item_no": "3.2.190",
+     "quantity_page": 46
+    },
+    {
+     "doc": "LV_00",
+     "page": 46,
+     "item_no": "3.2.192",
+     "quantity_page": 47
+    },
+    {
+     "doc": "LV_00",
+     "page": 47,
+     "item_no": "3.2.194",
+     "quantity_page": 48
+    },
+    {
+     "doc": "LV_00",
+     "page": 48,
+     "item_no": "3.3.10",
+     "quantity_page": 49
+    },
+    {
+     "doc": "LV_00",
+     "page": 49,
+     "item_no": "3.3.60",
+     "quantity_page": 50
+    },
+    {
+     "doc": "LV_00",
+     "page": 55,
+     "item_no": "3.4.100",
+     "quantity_page": 56
+    },
+    {
+     "doc": "LV_00",
+     "page": 56,
+     "item_no": "3.7.11",
+     "quantity_page": 57
+    },
+    {
+     "doc": "LV_00",
+     "page": 58,
+     "item_no": "3.7.19",
+     "quantity_page": 59
+    },
+    {
+     "doc": "LV_00",
+     "page": 59,
+     "item_no": "3.7.22",
+     "quantity_page": 60
+    },
+    {
+     "doc": "LV_00",
+     "page": 64,
+     "item_no": "5.1.20",
+     "quantity_page": 65
+    },
+    {
+     "doc": "LV_00",
+     "page": 65,
+     "item_no": "5.1.50",
+     "quantity_page": 66
+    }
+   ],
+   "difference_list": []
+  }
+ ]
+}

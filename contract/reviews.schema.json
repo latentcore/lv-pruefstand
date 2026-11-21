@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "reviews/<project>.json (contract v1, MASTER_PLAN §8)",
+  "description": "Human review labels, keyed by finding id. A new pipeline run never deletes this file.",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "required": ["status", "by", "comment", "eur_estimate", "at"],
+    "properties": {
+      "status": {"type": "string", "minLength": 1},
+      "by": {"type": "string"},
+      "comment": {"type": "string"},
+      "eur_estimate": {"type": ["number", "null"]},
+      "at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"}
+    },
+    "additionalProperties": true
+  }
+}

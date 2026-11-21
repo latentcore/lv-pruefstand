@@ -1,0 +1,19 @@
+# Organizer data and generated output never go to git (MASTER_PLAN §4, §8, K12)
+data/
+cache/
+out/
+reviews/
+
+# Local tool and agent files (KÖPRÜ, Claude Code)
+.kopru/
+.claude/
+.mcp.json
+CLAUDE.md
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Secrets
+.env

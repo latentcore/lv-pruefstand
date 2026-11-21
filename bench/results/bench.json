@@ -1,0 +1,368 @@
+{
+ "bench": "LV-Prüfstand, M1 to M9 (MASTER_PLAN §11)",
+ "prereg": "docs/PREREG.md",
+ "measured_at": "2026-11-21T11:50",
+ "measurements": [
+  {
+   "id": "M1",
+   "name": "GAEB parsing",
+   "threshold": "9/9",
+   "met": "yes",
+   "files_expected": 9,
+   "files_equal": 9,
+   "files": [
+    {
+     "file": "8209.003_Leistungsverzeichnis_leer.X83",
+     "expected": 159,
+     "read": 159,
+     "equal": true
+    },
+    {
+     "file": "8209.003_Leistungsverzeichnis_leer.D83",
+     "expected": 159,
+     "read": 159,
+     "equal": true
+    },
+    {
+     "file": "[ORT_024] LV24069.D86",
+     "expected": 197,
+     "read": 197,
+     "equal": true
+    },
+    {
+     "file": "Angebot AN24-0305.D84",
+     "expected": 274,
+     "read": 274,
+     "equal": true
+    },
+    {
+     "file": "StBALV23040.D84",
+     "expected": 249,
+     "read": 249,
+     "equal": true
+    },
+    {
+     "file": "StBALV23040.D86",
+     "expected": 249,
+     "read": 249,
+     "equal": true
+    },
+    {
+     "file": "[NUMMER_001]_leer.X83",
+     "expected": 248,
+     "read": 248,
+     "equal": true
+    },
+    {
+     "file": "GAEB-[PROJEKT_004].X83",
+     "expected": 50,
+     "read": 50,
+     "equal": true
+    },
+    {
+     "file": "501-24-01_GAEB-XML_sas.x83",
+     "expected": 296,
+     "read": 296,
+     "equal": true
+    }
+   ]
+  },
+  {
+   "id": "M2",
+   "name": "Recalculation",
+   "threshold": "every deviation is listed one by one",
+   "met": "yes",
+   "files": [
+    {
+     "file": "[ORT_024] LV24069.D86",
+     "items": 197,
+     "checked": 197,
+     "deviating": 0,
+     "not_checkable_no_quantity": 0,
+     "deviating_items": []
+    },
+    {
+     "file": "Angebot AN24-0305.D84",
+     "items": 274,
+     "checked": 274,
+     "deviating": 0,
+     "not_checkable_no_quantity": 0,
+     "deviating_items": []
+    },
+    {
+     "file": "StBALV23040.D84",
+     "items": 249,
+     "checked": 0,
+     "deviating": 0,
+     "not_checkable_no_quantity": 249,
+     "deviating_items": []
+    },
+    {
+     "file": "StBALV23040.D86",
+     "items": 249,
+     "checked": 249,
+     "deviating": 0,
+     "not_checkable_no_quantity": 0,
+     "deviating_items": []
+    }
+   ],
+   "checked": 720,
+   "deviating": 0,
+   "not_checkable_no_quantity": 249
+  },
+  {
+   "id": "M3",
+   "name": "PDF ↔ GAEB twin",
+   "threshold": "≥ 98 % of items, ≥ 98 % of prices",
+   "met": "yes",
+   "reason": "prices not measurable for T2",
+   "pairs": [
+    {
+     "twin": "T1",
+     "pdf": "Angebot AN24-0305.pdf",
+     "gaeb": "Angebot AN24-0305.D84",
+     "items_gaeb": 274,
+     "items_pdf": 274,
+     "items_in_both": 274,
+     "items_only_pdf": 0,
+     "items_only_gaeb": 0,
+     "unit_prices_compared": 274,
+     "unit_prices_equal": 274,
+     "totals_compared": 274,
+     "totals_equal": 274,
+     "items_percent_tenths": 1000,
+     "prices_measurable": true,
+     "prices_percent_tenths": 1000
+    },
+    {
+     "twin": "T2",
+     "pdf": "LV-Ausdruck-[PROJEKT_004].pdf",
+     "gaeb": "GAEB-[PROJEKT_004].X83",
+     "items_gaeb": 50,
+     "items_pdf": 50,
+     "items_in_both": 50,
+     "items_only_pdf": 0,
+     "items_only_gaeb": 0,
+     "unit_prices_compared": 0,
+     "unit_prices_equal": 0,
+     "totals_compared": 0,
+     "totals_equal": 0,
+     "items_percent_tenths": 1000,
+     "prices_measurable": false,
+     "prices_percent_tenths": null,
+     "prices_reason": "no item pair holds a unit price or a total in both files",
+     "prices_reason_de": "kein Positionspaar hat in beiden Dateien einen Einheitspreis oder Gesamtbetrag"
+    }
+   ]
+  },
+  {
+   "id": "M4",
+   "name": "PDF reader, 27 lists",
+   "threshold": "difference 0; what could not be read is stated openly",
+   "met": "yes",
+   "lists": 27,
+   "lists_expected": 27,
+   "items_run1": 1131,
+   "items_run2": 1131,
+   "difference": 0,
+   "pagecheck": {
+    "lists": [
+     "LV_18",
+     "LV_14c",
+     "LV_02",
+     "LV_17",
+     "LV_00"
+    ],
+    "pages": 115,
+    "items_on_page": 388,
+    "items_matched": 388,
+    "quantity_unit_equal": 388,
+    "differences": 0
+   },
+   "warnings": 11,
+   "lists_with_warnings": [
+    "LV_00",
+    "LV_13",
+    "LV_21"
+   ],
+   "unparsed_lines": 0
+  },
+  {
+   "id": "M5",
+   "name": "Expert verdict",
+   "threshold": "the numbers as they come out; headline evidence",
+   "met": "not measured yet",
+   "reason": "not measured: no expert session took place during the event",
+   "file": "reviews/79-222.json",
+   "file_found": false
+  },
+  {
+   "id": "M6",
+   "name": "Quote filter",
+   "threshold": "reported",
+   "met": "yes",
+   "file": "pipeline/cross/results/79-222/findings.json",
+   "findings": 24,
+   "quotes": 51,
+   "kept": 24,
+   "dropped": 0,
+   "dropped_ids": []
+  },
+  {
+   "id": "M7",
+   "name": "Seeded errors (internal measurement)",
+   "threshold": "B ≥ 90 %; X is only reported",
+   "met": "no",
+   "file": "StBALV23040.D86",
+   "seed": 20261121,
+   "per_type": 20,
+   "planted": 120,
+   "found": 83,
+   "percent_tenths": 691,
+   "types": [
+    {
+     "type": "quantity_x10",
+     "name": "quantity ×10",
+     "eligible": 243,
+     "planted": 20,
+     "found": 5,
+     "missed_items": [
+      "01.01.0002",
+      "01.02.0001",
+      "03.01.0005",
+      "03.01.0006",
+      "03.01.0007",
+      "03.01.0008",
+      "03.04.0001",
+      "03.05.0001",
+      "03.05.0002",
+      "03.05.0005",
+      "03.05.0006",
+      "04.01.0006",
+      "05.03.0005",
+      "06.01.0004",
+      "08.01.0023"
+     ]
+    },
+    {
+     "type": "unit_change",
+     "name": "unit change",
+     "eligible": 243,
+     "planted": 20,
+     "found": 8,
+     "missed_items": [
+      "01.01.0001",
+      "01.01.0020",
+      "01.02.0003",
+      "01.03.0006",
+      "03.02.0005",
+      "03.02.0011",
+      "03.03.0007",
+      "03.05.0002",
+      "05.03.0004",
+      "09.01.0020",
+      "09.02.0001",
+      "09.02.0004"
+     ]
+    },
+    {
+     "type": "corrupted_amount",
+     "name": "corrupted amount",
+     "eligible": 243,
+     "planted": 20,
+     "found": 20,
+     "missed_items": []
+    },
+    {
+     "type": "corrupted_total",
+     "name": "corrupted total",
+     "eligible": 34,
+     "planted": 20,
+     "found": 20,
+     "missed_items": []
+    },
+    {
+     "type": "deleted_item",
+     "name": "deleted item",
+     "eligible": 249,
+     "planted": 20,
+     "found": 14,
+     "missed_items": [
+      "01.03.0001",
+      "03.02.0028",
+      "03.03.0001",
+      "03.03.0009",
+      "08.01.0024",
+      "09.01.0021"
+     ]
+    },
+    {
+     "type": "duplicated_item",
+     "name": "duplicated item",
+     "eligible": 249,
+     "planted": 20,
+     "found": 16,
+     "missed_items": [
+      "02.01.0002",
+      "05.01.0001",
+      "05.04.0001",
+      "05.04.0009"
+     ]
+    }
+   ],
+   "x": "not measured: finding a deleted or changed item of a cross-list finding again needs a new model run, and the bench never runs a model"
+  },
+  {
+   "id": "M8",
+   "name": "False alarms",
+   "threshold": "≤ 5",
+   "met": "no",
+   "clean": {
+    "file": "StBALV23040.D86",
+    "items": 249,
+    "high_medium": 43,
+    "by_check": {
+     "B4": 24,
+     "B5": 4,
+     "B6": 15
+    },
+    "per_100_hundredths": 1726
+   },
+   "other": {
+    "file": "[ORT_024] LV24069.D86",
+    "items": 197,
+    "high_medium": 84,
+    "by_check": {
+     "B5": 38,
+     "B6": 43,
+     "B8": 3
+    },
+    "per_100_hundredths": 4263
+   }
+  },
+  {
+   "id": "M9",
+   "name": "Speed",
+   "threshold": "≤ 5 s",
+   "met": "yes",
+   "runs": 5,
+   "inputs": [
+    {
+     "input": "built",
+     "file": "StBALV23040.D86",
+     "items": 300,
+     "median_seconds": 0.1063,
+     "read_median_seconds": 0.0128
+    },
+    {
+     "input": "as it is",
+     "file": "501-24-01_GAEB-XML_sas.x83",
+     "items": 296,
+     "median_seconds": 0.1545,
+     "read_median_seconds": 0.0176
+    }
+   ],
+   "machine": "aarch64, 10 cores, 8 GB RAM, Linux 7.0.14-linuxkit, Python 3.12.16"
+  }
+ ]
+}

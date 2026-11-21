@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "out/<project>/items.json (contract v1, MASTER_PLAN §8)",
+  "description": "One record per item, heading and preliminary note. The pipeline writes it, the app only reads it. Readers ignore keys they do not know.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "doc", "project", "trade", "format", "stage", "item_no", "kind", "section",
+      "short_text", "long_text", "quantity", "unit", "unit_price", "total",
+      "page", "line", "pre_trade_text", "post_trade_text"
+    ],
+    "properties": {
+      "doc": {"type": "string", "minLength": 1},
+      "project": {"type": "string"},
+      "trade": {"type": "string"},
+      "format": {"type": "string", "enum": ["pdf", "gaeb90", "gaebxml", "xlsx"]},
+      "stage": {"type": "string", "enum": ["anfrage", "83", "84", "86"]},
+      "item_no": {"type": "string"},
+      "kind": {
+        "type": "string",
+        "enum": ["normal", "optional", "alternative", "lump_sum", "preliminary_note", "heading"]
+      },
+      "section": {"type": "string"},
+      "short_text": {"type": "string"},
+      "long_text": {"type": "string"},
+      "quantity": {"type": ["number", "null"]},
+      "unit": {"type": ["string", "null"]},
+      "unit_price": {"type": ["number", "null"]},
+      "total": {"type": ["number", "null"]},
+      "page": {"type": ["integer", "null"]},
+      "line": {"type": ["integer", "null"]},
+      "pre_trade_text": {"type": ["string", "null"]},
+      "post_trade_text": {"type": ["string", "null"]}
+    },
+    "additionalProperties": true
+  }
+}

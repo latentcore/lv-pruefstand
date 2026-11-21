@@ -1,0 +1,92 @@
+<!-- Slide source of the deck (W10). At most 7 <section class="slide"> blocks.
+     A number is named by its key of pitch/numbers.json in double braces; a name with @
+     in double braces is a field the build fills (quotes of the opening finding,
+     screenshots). Write no number here by hand. -->
+
+<section class="slide" id="finding">
+  <h1>Which lights go into this ceiling?</h1>
+  <div class="sources">{{@opening.sources}}</div>
+  <figure class="question">
+    <figcaption>Frage</figcaption>
+    <blockquote data-source="question">{{@opening.question}}</blockquote>
+  </figure>
+  <div class="foot">
+    <p class="mark">{{@opening.mark}}</p>
+    <p class="status" data-from="findings">{{@opening.status}}</p>
+    <p>Real project from your data. A finding is a question, not an accusation.</p>
+  </div>
+</section>
+
+<section class="slide" id="problem">
+  <p class="kicker">Zwischen den Dokumenten</p>
+  <h1>Expensive mistakes sit between the documents</h1>
+  <ul class="figures">
+    <li><b>{{lists}}</b> lists</li>
+    <li><b>{{pages}}</b> pages</li>
+    <li><b>{{items}}</b> items</li>
+  </ul>
+  <ul class="kinds">
+    <li><b>Doppelt</b> same work in more than one list</li>
+    <li><b>Widerspruch</b> lists contradict each other</li>
+    <li><b>Lücke</b> work left to another trade, in none of the lists given</li>
+  </ul>
+</section>
+
+<section class="slide" id="solution">
+  <h1>LV-Prüfstand: every finding is a question</h1>
+  <div class="shots">
+    <figure>{{@shot.bauwerk}}<figcaption><b>Bauwerk</b> all lists as one building, findings lit</figcaption></figure>
+    <figure>{{@shot.fund}}<figcaption><b>Fund</b> the quotes with list, item, page</figcaption></figure>
+  </div>
+  <p class="line">Export, confirmed findings only: question list (.docx), marked lists (.xlsx), risk report (PDF)</p>
+</section>
+
+<section class="slide" id="architecture">
+  <h1>Code checks, model proposes, human decides</h1>
+  <div class="flow">
+    <div class="lane lane-code">Code</div>
+    <div class="lane lane-model">Model</div>
+    <div class="lane lane-human">Human</div>
+    <div class="node code step-1">Readers<small>PDF, GAEB 90/XML</small></div>
+    <div class="node code step-2">{{base_checks}} base checks</div>
+    <div class="node model step-3">Cross-list finder</div>
+    <div class="node code step-4">Quote check</div>
+    <div class="node model step-5">Counter-check<small>independent agent</small></div>
+    <div class="node code step-5">Number rule</div>
+    <div class="node human step-6">Review</div>
+    <div class="node code step-7">Export</div>
+  </div>
+  <p class="line">Finder's lists hold no prices; code strips price fields before the counter-check.</p>
+</section>
+
+<section class="slide" id="stack">
+  <h1>Stack and tools</h1>
+  <dl class="stack">
+    <dt>Pipeline</dt><dd>Python, lxml, PyMuPDF, Poppler pdftotext</dd>
+    <dt>Screen</dt><dd>FastAPI, one HTML page, offline</dd>
+    <dt>Export</dt><dd>python-docx, openpyxl, Chrome print</dd>
+    <dt>AI tools</dt><dd>Devin, then Claude Code in a Docker box (Claude Fable, Opus). Findings: stored, no live model call.</dd>
+  </dl>
+</section>
+
+<section class="slide" id="proof">
+  <h1>Proof, and what is not built</h1>
+  <ul class="proof">
+    <li><b>{{findings}}</b> findings, counter-checked:</li>
+    <li><b>{{survived}}</b> survived</li>
+    <li><b>{{weakened}}</b> weakened, withheld: <b>{{weakened_agent}}</b> by a second agent, <b>{{weakened_rule}}</b> by a code rule</li>
+    <!--expert--><li>Estimator: <b>{{expert_reviewed}}</b> reviewed, <b>{{expert_confirmed}}</b> confirmed, <b>{{expert_rejected}}</b> rejected</li><!--/expert--><!--noexpert--><li>Estimator review: not done yet</li><!--/noexpert-->
+  </ul>
+  <p class="line">Not built: price suggestions, what-if, scanned PDF, Excel input</p>
+</section>
+
+<section class="slide" id="monday">
+  <h1>Monday, for your estimator</h1>
+  <ul class="monday">
+    <li>Questions go out with their quotes attached</li>
+    <li>Handovers are settled before subcontracts are awarded</li>
+    <li>Risk is priced on evidence</li>
+  </ul>
+  <p class="team">Mert and Arda, team Cowork</p>
+  <p class="ask">Give us one real tender and one afternoon.</p>
+</section>

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "out/<project>/manifest.json (contract v1, MASTER_PLAN §8)",
+  "description": "One record per document: file name, sha256, format, stage, pages, item count, unreadable part. §8 names these fields in words; the key names are the ones pipeline/pdf already writes. A list that could not be read is listed, not hidden. Readers ignore keys they do not know.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["file", "sha256", "format", "stage", "pages", "items", "unparsed_lines"],
+    "properties": {
+      "doc": {"type": "string", "minLength": 1},
+      "file": {"type": "string", "minLength": 1},
+      "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+      "format": {"type": "string", "enum": ["pdf", "gaeb90", "gaebxml", "xlsx"]},
+      "stage": {"type": "string", "enum": ["anfrage", "83", "84", "86"]},
+      "pages": {"type": ["integer", "null"], "minimum": 0},
+      "items": {"type": "integer", "minimum": 0},
+      "unparsed_lines": {"type": "integer", "minimum": 0},
+      "warnings": {"type": "array", "items": {"type": "string"}}
+    },
+    "additionalProperties": true
+  }
+}

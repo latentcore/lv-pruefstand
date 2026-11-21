@@ -1,0 +1,231 @@
+/* LV-Prüfstand: light theme for the projector. Smallest font size: 18px. */
+:root {
+  color-scheme: light;
+  --ink: #111827;
+  --muted: #374151;
+  --line: #9ca3af;
+  --paper: #ffffff;
+  --soft: #f3f4f6;
+  --accent: #1d4ed8;
+  --confirmed: #166534;
+  --confirmed-soft: #dcfce7;
+  --rejected: #991b1b;
+  --rejected-soft: #fee2e2;
+  --unclear: #92400e;
+  --unclear-soft: #fef3c7;
+  --quote: #fffbeb;
+}
+* { box-sizing: border-box; }
+html { font-size: 20px; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--paper);
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+kbd {
+  font: inherit;
+  font-weight: 700;
+  border: 1px solid var(--line);
+  border-bottom-width: 3px;
+  border-radius: 6px;
+  padding: 0 8px;
+  background: var(--paper);
+}
+[hidden] { display: none !important; }
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  border-bottom: 2px solid var(--ink);
+}
+.top h1 { font-size: 28px; margin: 0; }
+.project { margin: 0; color: var(--muted); }
+.project span { font-weight: 700; color: var(--ink); }
+.tabs { margin-left: auto; display: flex; gap: 8px; }
+.tab {
+  font-size: 22px;
+  padding: 8px 28px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--paper);
+  cursor: pointer;
+}
+.tab.active { background: var(--ink); color: var(--paper); }
+
+#messages { padding: 0 24px; }
+.message {
+  margin: 12px 0 0;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 2px solid var(--unclear);
+  background: var(--unclear-soft);
+}
+.message.error { border-color: var(--rejected); background: var(--rejected-soft); }
+
+main { padding: 16px 24px 32px; }
+#view-fund { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 16px 24px; align-items: start; }
+#view-fund .export-bar { grid-column: 1 / -1; }
+
+/* Export (W8): three files built from the current reviews. */
+.export-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.export-button {
+  font-size: 18px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--accent);
+  cursor: pointer;
+}
+.export-note { font-size: 18px; color: var(--muted); overflow-wrap: anywhere; }
+.export-note.ok { color: var(--confirmed); font-weight: 700; }
+.export-note.error { color: var(--rejected); font-weight: 700; }
+
+.finding-list { display: flex; flex-direction: column; gap: 6px; max-height: calc(100vh - 200px); overflow-y: auto; }
+.finding-list button {
+  text-align: left;
+  padding: 8px 12px;
+  border: 2px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  cursor: pointer;
+  font-size: 18px;
+}
+.finding-list button.active { border-color: var(--accent); background: #eff6ff; }
+.finding-list .row { display: flex; justify-content: space-between; gap: 8px; }
+.finding-list .held { color: var(--muted); }
+
+.detail { min-width: 0; overflow-wrap: anywhere; }
+.detail h2 { font-size: 26px; margin: 0 0 4px; }
+.detail h3 { font-size: 20px; margin: 20px 0 4px; color: var(--muted); }
+.detail p { margin: 0 0 6px; }
+.empty { padding: 32px 0; color: var(--muted); }
+.head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 12px; }
+.badge {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 2px 12px;
+  border-radius: 999px;
+  border: 2px solid var(--line);
+  background: var(--soft);
+  white-space: nowrap;
+}
+.badge.sev-high { border-color: var(--rejected); background: var(--rejected-soft); color: var(--rejected); }
+.badge.sev-medium { border-color: var(--unclear); background: var(--unclear-soft); color: var(--unclear); }
+.badge.st-confirmed { border-color: var(--confirmed); background: var(--confirmed-soft); color: var(--confirmed); }
+.badge.st-rejected { border-color: var(--rejected); background: var(--rejected-soft); color: var(--rejected); }
+.badge.st-unclear { border-color: var(--unclear); background: var(--unclear-soft); color: var(--unclear); }
+
+/* As many cards side by side as fit with at least 340px each; a card never gets narrower than that. */
+.sources { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.source { min-width: 0; border: 2px solid var(--line); border-radius: 8px; padding: 12px 16px; background: var(--paper); }
+/* A long word (trade name, short text without spaces) breaks inside the card instead of running past its edge. */
+.source .where { font-weight: 700; font-size: 22px; overflow-wrap: anywhere; }
+.source .item { color: var(--muted); overflow-wrap: anywhere; }
+.source blockquote {
+  margin: 10px 0;
+  padding: 10px 14px;
+  border-left: 6px solid #f59e0b;
+  background: var(--quote);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.source button, .queue-nav button {
+  padding: 6px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--paper);
+  cursor: pointer;
+}
+.euro { margin-top: 14px; padding-top: 10px; border-top: 2px dashed var(--line); }
+.euro p { margin: 0 0 6px; }
+.euro-field { display: flex; flex-direction: column; gap: 4px; }
+.euro-field input { padding: 8px 12px; border: 2px solid var(--line); border-radius: 8px; background: var(--paper); width: 100%; max-width: 320px; }
+.euro-result { min-height: 29px; font-weight: 700; margin-top: 6px; overflow-wrap: anywhere; }
+.euro-result.ok { color: var(--confirmed); }
+.euro-result.error { color: var(--rejected); }
+.euro-none, .euro-note { color: var(--muted); }
+.euro-note { margin-top: 16px; }
+.page-panel { margin-top: 10px; }
+.page-panel img { display: block; max-width: 100%; border: 1px solid var(--line); }
+.page-panel p { color: var(--muted); }
+.statement { font-size: 22px; }
+.held-note { margin-top: 16px; padding: 8px 14px; border: 2px dashed var(--line); border-radius: 8px; background: var(--soft); }
+
+.review-bar { display: grid; gap: 8px; margin-bottom: 16px; }
+.counters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.counter { display: flex; align-items: baseline; gap: 8px; border: 2px solid var(--line); border-radius: 8px; padding: 2px 14px; }
+.counter .number { font-size: 26px; font-weight: 700; line-height: 1.2; }
+.counter .label { font-size: 18px; }
+.counter.confirmed { border-color: var(--confirmed); background: var(--confirmed-soft); }
+.counter.rejected { border-color: var(--rejected); background: var(--rejected-soft); }
+.counter.unclear { border-color: var(--unclear); background: var(--unclear-soft); }
+.counter.held { border-style: dashed; background: var(--soft); }
+.switch { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.switch input { width: 28px; height: 28px; flex: none; }
+.k3-note { margin: 0; color: var(--muted); }
+.queue-nav { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+#position { font-weight: 700; white-space: nowrap; }
+
+/* The review form stands under the finding, in the flow of the page: it never lies over the finding. */
+.review-form {
+  margin-top: 10px;
+  padding: 10px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--soft);
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 8px 16px;
+}
+.form-row { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+
+/* View "Prüfen" in a window of at least 1200px x 600px: header, counters and the review form keep
+   their place and only the part between them scrolls (the finding with the filter switch and the
+   export buttons above it). The form and the finding are two boxes one under the other, so no line
+   of the finding can stand under the form. In a lower or narrower window the page scrolls as a whole.
+   The box of the finding never gets lower than 160px; if the window has no room for that, the page
+   scrolls too, so nothing can become unreachable. */
+@media (min-height: 600px) and (min-width: 1200px) {
+  body.in-pruefen { height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto; }
+  body.in-pruefen > .top { flex: none; }
+  body.in-pruefen > #messages { flex: none; max-height: 30vh; overflow-y: auto; }
+  body.in-pruefen > main { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; padding: 12px 24px; }
+  body.in-pruefen #view-pruefen { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  body.in-pruefen .counters, body.in-pruefen .review-form { flex: none; }
+  body.in-pruefen .review-scroll { flex: 1 1 auto; min-height: 160px; overflow-y: auto; position: relative; padding-right: 8px; }
+}
+.status-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+.status-button {
+  font-size: 22px;
+  font-weight: 700;
+  padding: 8px 22px;
+  border: 3px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  cursor: pointer;
+}
+.status-button.confirmed { border-color: var(--confirmed); color: var(--confirmed); }
+.status-button.rejected { border-color: var(--rejected); color: var(--rejected); }
+.status-button.unclear { border-color: var(--unclear); color: var(--unclear); }
+.status-button.confirmed.active { background: var(--confirmed); color: var(--paper); }
+.status-button.rejected.active { background: var(--rejected); color: var(--paper); }
+.status-button.unclear.active { background: var(--unclear); color: var(--paper); }
+.status-button.active kbd { color: var(--ink); }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field input { padding: 6px 12px; border: 2px solid var(--line); border-radius: 8px; background: var(--paper); width: 100%; }
+.save-note { grid-column: 1 / -1; margin: 0; }
+.save-note { min-height: 29px; font-weight: 700; }
+.save-note.ok { color: var(--confirmed); }
+.save-note.error { color: var(--rejected); }
+.keys { margin: 16px 0 0; color: var(--muted); }
+button:disabled { opacity: 0.45; cursor: default; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }

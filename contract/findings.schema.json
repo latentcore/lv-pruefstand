@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "out/<project>/findings.json (contract v1, MASTER_PLAN §8)",
+  "description": "One record per finding. id = check + '-' + 6 hex digits (stable id rule, pipeline/common/ids.py). Readers ignore keys they do not know.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id", "check", "layer", "type", "severity", "handover", "sources",
+      "lists_searched", "search_terms", "explanation_de", "question_de",
+      "exposure", "quotes_verified", "origin", "skeptic"
+    ],
+    "properties": {
+      "id": {"type": "string", "pattern": "^[A-Za-z0-9]+-[0-9a-f]{6}$"},
+      "check": {"type": "string", "pattern": "^[A-Za-z0-9]+$"},
+      "layer": {
+        "type": "string",
+        "enum": ["single_list", "between_lists", "between_stages", "between_formats"]
+      },
+      "type": {"type": "string", "minLength": 1},
+      "severity": {"type": "string", "minLength": 1},
+      "handover": {"type": "array", "items": {"type": "string"}},
+      "sources": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": ["doc", "item_no", "page", "quote"],
+          "properties": {
+            "doc": {"type": "string", "minLength": 1},
+            "item_no": {"type": "string"},
+            "page": {"type": ["integer", "null"]},
+            "quote": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": true
+        }
+      },
+      "lists_searched": {"type": "array", "items": {"type": "string"}},
+      "search_terms": {"type": "array", "items": {"type": "string"}},
+      "explanation_de": {"type": "string"},
+      "question_de": {"type": "string"},
+      "exposure": {
+        "type": "object",
+        "required": ["quantity", "unit"],
+        "properties": {
+          "quantity": {"type": ["number", "null"]},
+          "unit": {"type": ["string", "null"]}
+        },
+        "additionalProperties": true
+      },
+      "quotes_verified": {"type": "boolean"},
+      "origin": {"type": "string", "minLength": 1},
+      "skeptic": {
+        "type": "object",
+        "required": ["status", "note"],
+        "properties": {
+          "status": {"type": "string", "minLength": 1},
+          "note": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "additionalProperties": true
+  }
+}
