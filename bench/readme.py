@@ -56,7 +56,10 @@ def main(argv=None):
     try:
         data = run.read_json(args.results)
         with open(args.readme, encoding="utf-8", newline="") as handle:
-            text = handle.read()
+            raw = handle.read()
+        # A checkout on Windows (core.autocrlf) has CRLF line ends; compare and rewrite on LF, keep the file's ends.
+        crlf = "\r\n" in raw
+        text = raw.replace("\r\n", "\n")
         if args.check:
             if in_sync(text, data):
                 return 0
@@ -68,7 +71,7 @@ def main(argv=None):
         return 2
     if changed != text:
         with open(args.readme, "w", encoding="utf-8", newline="") as handle:
-            handle.write(changed)
+            handle.write(changed.replace("\n", "\r\n") if crlf else changed)
     return 0
 
 
