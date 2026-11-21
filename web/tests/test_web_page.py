@@ -1,5 +1,5 @@
-"""W6/W7: one page without a build step, German, light theme, smallest font
-18 px, fully offline, started with one command."""
+"""W6/W7: one page without a build step, German, a warm dark design with a light
+one by one click, smallest font 18 px, fully offline, started with one command."""
 import json
 import os
 import re
@@ -104,13 +104,25 @@ def test_smallest_font_is_18_px():
         assert tag not in html
 
 
-def test_theme_is_light_only():
+def test_design_is_warm_and_dark_with_a_light_one_by_one_click():
+    """Mert, Sat 21 Nov evening: a white page strains the eyes. The page is dark by default; the button in the
+    header switches to the light design (for a weak projector) and the choice stays in the browser. The system
+    setting does not choose: the page looks the same on every machine until someone clicks."""
     css = static_text("style.css")
-    assert re.search(r"color-scheme:\s*light;", css)
-    assert "prefers-color-scheme" not in css and "dark" not in css
-    assert re.search(r"--paper:\s*#ffffff;", css)
+    root = re.search(r":root \{([^}]*)\}", css).group(1)
+    light = re.search(r":root\[data-theme=\"light\"\] \{([^}]*)\}", css).group(1)
+    assert re.search(r"color-scheme:\s*dark;", root) and re.search(r"--paper:\s*#1f1e1d;", root)
+    assert re.search(r"color-scheme:\s*light;", light) and re.search(r"--paper:\s*#ffffff;", light)
+    assert "prefers-color-scheme" not in css + static_text("views.css")
     assert re.search(r"body\s*\{[^}]*background:\s*var\(--paper\)", css)
-    assert '<meta name="color-scheme" content="light">' in static_text("index.html")
+    # Every colour the light design changes is a variable of the dark one: no colour is left behind in a rule.
+    names = set(re.findall(r"(--[\w-]+):", light))
+    assert names and names <= set(re.findall(r"(--[\w-]+):", root))
+    html, script = static_text("index.html"), static_text("app.js")
+    assert '<meta name="color-scheme" content="dark light">' in html
+    assert '<button type="button" class="theme-toggle" id="theme-toggle"' in html
+    assert 'document.documentElement.setAttribute("data-theme", "light")' in script
+    assert 'localStorage.setItem(THEME_STORE, next)' in script
 
 
 def test_data_text_is_never_put_into_the_page_as_html():

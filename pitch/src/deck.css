@@ -1,62 +1,77 @@
 /* Style of the deck (W10): 1920 x 1080 px per slide, one slide per PDF page.
-   System fonts only, no outside resource. Every font size is in px and at least 24. */
+   System fonts only, no outside resource. Every font size is in px and at least 24.
+   Warm dark page, cream ink, one clay accent; titles in a serif face, everything else in a sans face.
+   The page is dark on purpose: a white slide strains the eyes in a long pitch session. */
 @page { size: 1920px 1080px; margin: 0; }
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: #ffffff; color: #1a1a1a; }
-body { font: 36px/1.35 "Segoe UI", "Helvetica Neue", Arial, "Liberation Sans", "DejaVu Sans", sans-serif; }
-.slide { width: 1920px; height: 1080px; padding: 70px 100px 60px; overflow: hidden; position: relative;
-  break-after: page; page-break-after: always; display: flex; flex-direction: column; }
+html, body { margin: 0; padding: 0; background: #1f1e1d; color: #f5f4ef; }
+body { font: 36px/1.4 "Segoe UI", "Helvetica Neue", Arial, "Liberation Sans", "DejaVu Sans", sans-serif; counter-reset: slide;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.slide { width: 1920px; height: 1080px; padding: 104px 120px 64px; overflow: hidden; position: relative;
+  break-after: page; page-break-after: always; display: flex; flex-direction: column; counter-increment: slide;
+  background: #1f1e1d; }
 .slide:last-child { break-after: auto; page-break-after: auto; }
-@media screen { body { background: #d9d9d9; } .slide { background: #ffffff; margin: 0 auto 24px; } }
-h1 { font-size: 64px; line-height: 1.15; margin: 0 0 40px; font-weight: 700; }
+/* A quiet running head: the product on the left, the slide number on the right. */
+.slide::before { content: "LV-Pr\00FC fstand"; position: absolute; top: 40px; left: 120px; font-size: 24px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: #d97757; }
+.slide::after { content: counter(slide); position: absolute; top: 40px; right: 120px; font-size: 24px; color: #8f8c82; }
+@media screen { body { background: #141413; } .slide { margin: 0 auto 24px; } }
+h1 { font-family: Charter, "Iowan Old Style", "Sitka Heading", "Sitka Text", Cambria, Georgia, serif; font-size: 70px;
+  line-height: 1.12; margin: 0 0 40px; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: lining-nums; }
 p, ul, dl, figure, blockquote { margin: 0; padding: 0; }
 ul { list-style: none; }
 b { font-weight: 700; }
-.n.open { background: #ffe680; padding: 0 8px; }
-.kicker { font-size: 32px; color: #555555; margin-bottom: 12px; }
-.line { font-size: 36px; margin-top: auto; padding-top: 24px; border-top: 3px solid #1a1a1a; }
+.n.open { background: #ffe680; color: #1f1e1d; padding: 0 8px; }
+.kicker { font-size: 28px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #d97757; margin-bottom: 14px; }
+.line { font-size: 32px; margin-top: auto; padding-top: 24px; border-top: 2px solid #3a3835; color: #b9b6aa; }
 
 /* slide 1: the finding */
-#finding h1 { margin-bottom: 28px; }
-.sources { display: flex; gap: 40px; }
-.source { flex: 1 1 0; border: 3px solid #1a1a1a; padding: 22px 28px; }
-.source figcaption, .question figcaption { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
-.source blockquote { font-size: 28px; line-height: 1.35; overflow-wrap: anywhere; }
-.source mark { background: #ffe680; color: inherit; font-weight: 700; padding: 0 4px; }
-.question { margin-top: 28px; border-left: 12px solid #1a1a1a; padding-left: 28px; }
-.question blockquote { font-size: 32px; line-height: 1.3; }
-.foot { margin-top: auto; display: flex; gap: 40px; align-items: baseline; font-size: 26px; }
-.foot .mark { background: #ffe680; font-weight: 700; padding: 6px 16px; white-space: nowrap; }
-.foot .mark.confirmed { background: #bfe8c4; }
-.foot .mark.plain { background: none; }
+#finding h1 { margin-bottom: 26px; }
+.sources { display: flex; gap: 36px; }
+.source { flex: 1 1 0; border: 2px solid #3a3835; border-radius: 22px; background: #2a2927; padding: 22px 30px; }
+.source figcaption, .question figcaption { font-size: 28px; font-weight: 700; margin-bottom: 10px; }
+.source blockquote { font-size: 28px; line-height: 1.36; overflow-wrap: anywhere; color: #ebe9e0; }
+.source mark { background: #e6bd62; color: #1f1e1d; font-weight: 700; padding: 0 5px; border-radius: 6px; }
+.question { margin-top: 26px; border-left: 10px solid #d97757; padding-left: 30px; }
+.question figcaption { font-size: 26px; letter-spacing: 0.1em; text-transform: uppercase; color: #d97757; }
+.question blockquote { font-family: Charter, "Iowan Old Style", "Sitka Text", Cambria, Georgia, serif; font-size: 33px; line-height: 1.3;
+  font-variant-numeric: lining-nums; }
+.foot { margin-top: auto; display: flex; gap: 36px; align-items: baseline; font-size: 26px; color: #b9b6aa; }
+.foot .mark { background: #e6bd62; color: #1f1e1d; font-weight: 700; padding: 6px 18px; border-radius: 999px; white-space: nowrap; }
+.foot .mark.confirmed { background: #86c9a2; }
+.foot .mark.plain { background: none; padding: 0; color: #f5f4ef; }
 .foot .status { white-space: nowrap; }
 
 /* slide 2: the problem */
-.figures { display: flex; gap: 90px; margin: 10px 0 50px; font-size: 40px; }
-.figures b { font-size: 120px; line-height: 1; display: block; }
-.kinds li { font-size: 40px; padding: 18px 0; border-top: 2px solid #b3b3b3; display: flex; gap: 40px; }
-.kinds b { flex: 0 0 330px; }
+.figures { display: flex; gap: 110px; margin: 24px 0 76px; font-size: 40px; color: #b9b6aa; }
+.figures b { font-size: 168px; line-height: 1; display: block; color: #f5f4ef; letter-spacing: -0.02em; }
+.kinds li { font-size: 44px; padding: 30px 0; border-top: 2px solid #3a3835; display: flex; gap: 40px; }
+.kinds b { flex: 0 0 360px; color: #d97757; }
+.kinds li:last-child { border-bottom: 2px solid #3a3835; }
 
 /* slide 3: the solution */
 .shots { display: flex; gap: 40px; }
 .shots figure { flex: 1 1 0; }
-.shots img, .shot-missing { width: 840px; height: 472px; border: 2px solid #1a1a1a; display: block; }
-.shot-missing { background: #d9d9d9; color: #1a1a1a; font-size: 28px; padding: 40px; display: flex; align-items: center; }
-.shots figcaption { font-size: 30px; margin-top: 16px; }
-.shots figcaption b { margin-right: 14px; }
+.shots img, .shot-missing { width: 820px; height: 461px; border: 2px solid #5a5750; border-radius: 16px; display: block; }
+.shots img { box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5); }
+.shot-missing { background: #d9d9d9; color: #141413; font-size: 28px; padding: 40px; display: flex; align-items: center; }
+.shots figcaption { font-size: 30px; margin-top: 20px; color: #b9b6aa; }
+.shots figcaption b { margin-right: 14px; color: #f5f4ef; }
 
 /* slide 4: architecture. Column = step, row = who does it. */
-#architecture { padding-left: 60px; padding-right: 60px; }
-.flow { display: grid; grid-template-columns: 130px repeat(7, minmax(0, 1fr)); grid-template-rows: repeat(3, 215px); gap: 14px 0; }
-.lane { grid-column: 1 / -1; padding: 18px 16px; font-size: 30px; font-weight: 700; }
-.lane-code { grid-row: 1; background: #e6effa; }
-.lane-model { grid-row: 2; background: #fdeed2; }
-.lane-human { grid-row: 3; background: #e3f3e5; }
-.node { margin: 16px 8px 16px 44px; padding: 10px 14px; background: #ffffff; border: 3px solid #1a1a1a; font-size: 28px;
+#architecture { padding-left: 70px; padding-right: 70px; }
+#architecture::before { left: 70px; }
+#architecture::after { right: 70px; }
+.flow { display: grid; grid-template-columns: 140px repeat(7, minmax(0, 1fr)); grid-template-rows: repeat(3, 205px); gap: 14px 0; }
+.lane { grid-column: 1 / -1; padding: 20px 22px; font-size: 26px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 20px; }
+.lane-code { grid-row: 1; background: rgba(147, 187, 226, 0.13); color: #93bbe2; }
+.lane-model { grid-row: 2; background: rgba(217, 119, 87, 0.15); color: #eb9a80; }
+.lane-human { grid-row: 3; background: rgba(134, 201, 162, 0.13); color: #86c9a2; }
+.node { margin: 18px 8px 18px 44px; padding: 10px 16px; background: #2a2927; border: 2px solid #8f8c82; border-radius: 14px; font-size: 28px;
   line-height: 1.2; font-weight: 700; position: relative; display: flex; flex-direction: column; justify-content: center;
   overflow-wrap: anywhere; }
-.node small { font-size: 24px; font-weight: 400; display: block; margin-top: 6px; }
-.node::before { content: "\2192"; position: absolute; left: -40px; top: 50%; transform: translateY(-50%); font-size: 36px; font-weight: 400; }
+.node small { font-size: 24px; font-weight: 400; display: block; margin-top: 6px; color: #b9b6aa; }
+.node::before { content: "\2192"; position: absolute; left: -40px; top: 50%; transform: translateY(-50%); font-size: 36px; font-weight: 400; color: #8f8c82; }
 .node.step-1::before { content: none; }
 .node.code { grid-row: 1; } .node.model { grid-row: 2; } .node.human { grid-row: 3; }
 .step-1 { grid-column: 2; } .step-2 { grid-column: 3; } .step-3 { grid-column: 4; } .step-4 { grid-column: 5; }
@@ -64,14 +79,15 @@ b { font-weight: 700; }
 
 /* slide 5: stack */
 .stack { display: grid; grid-template-columns: 300px 1fr; row-gap: 0; font-size: 40px; }
-.stack dt, .stack dd { margin: 0; padding: 26px 0; border-top: 2px solid #b3b3b3; }
-.stack dt { font-weight: 700; }
+.stack dt, .stack dd { margin: 0; padding: 34px 0; border-top: 2px solid #3a3835; }
+.stack dt { font-weight: 700; color: #d97757; }
 
 /* slide 6: proof */
-.proof li { font-size: 44px; padding: 20px 0; border-top: 2px solid #b3b3b3; }
-.proof b { font-size: 72px; line-height: 1; margin-right: 12px; }
+.proof li { font-size: 44px; padding: 26px 0; border-top: 2px solid #3a3835; }
+.proof b { font-size: 76px; line-height: 1; margin-right: 12px; letter-spacing: -0.02em; }
 
 /* slide 7: Monday, team, ask */
-.monday li { font-size: 48px; padding: 22px 0; border-top: 2px solid #b3b3b3; }
-.team { margin-top: auto; font-size: 36px; }
-.ask { font-size: 64px; font-weight: 700; line-height: 1.15; margin-top: 12px; }
+.monday li { font-size: 46px; padding: 22px 0; border-top: 2px solid #3a3835; }
+.team { margin-top: auto; font-size: 34px; color: #b9b6aa; }
+.ask { font-family: Charter, "Iowan Old Style", "Sitka Heading", "Sitka Text", Cambria, Georgia, serif; font-size: 68px; font-weight: 600;
+  line-height: 1.15; margin-top: 12px; padding-left: 30px; border-left: 10px solid #d97757; font-variant-numeric: lining-nums; }

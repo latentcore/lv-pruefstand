@@ -1,17 +1,17 @@
 # web/
 
-App for the views "Bauwerk", "Fund", "Prüfen", "Einzel-LV", "Live-Prüfung", "Vergleich" and "Messung" (W6, W7 and the views of plan §7): FastAPI plus one page without a build step (`static/`), German, light theme, fully offline (system fonts, no outside resource; one stylesheet `style.css` for the header, "Fund" and "Prüfen", `views.css` for the other views). The German export (W8) is in `export/`; see "Export" below. The address names the view: `#bauwerk`, `#fund` (the default), `#pruefen`, `#einzel`, `#live`, `#vergleich`, `#messung`.
+App for the views "Bauwerk", "Fund", "Prüfen", "Einzel-LV", "Live-Prüfung", "Vergleich" and "Messung" (W6, W7 and the views of plan §7): FastAPI plus one page without a build step (`static/`), German, a warm dark design by default and a light one by the button ◐ in the header (the choice stays in the browser), fully offline (system fonts, no outside resource; one stylesheet `style.css` for the header, "Fund" and "Prüfen", `views.css` for the other views). The German export (W8) is in `export/`; see "Export" below. The address names the view: `#bauwerk`, `#fund` (the default), `#pruefen`, `#einzel`, `#live`, `#vergleich`, `#messung`.
 
 ## The views "Bauwerk", "Einzel-LV", "Live-Prüfung", "Vergleich", "Messung"
 
 Their data comes from `views.py`; the page part is `static/views.js` and `static/views.css`. Every answer is built from fixed lists of keys: no `unit_price` and no `total` reaches the page.
 
 - "Bauwerk": one row and one column per list of the project (order of `items.json`). A cell is lit when a finding lies between the two lists (a finding between three lists lights its three pairs; a finding inside one list lights the diagonal); the colour is the highest level of its findings, stripes mean all of them are held back by the Prüffilter, a green frame means one is confirmed. Grey cells are handovers of `pipeline/cross/handover_map.json` (only for its own project). A click lists the findings of the cell; a click on one opens it in "Fund".
-- "Einzel-LV": a list of the project with all its records and the marks of the base checks of `out/<project>/base_findings.json` (written by `python -m pipeline.run`).
+- "Einzel-LV": a list of the project with all its records and the marks of the base checks of `out/<project>/base_findings.json` (written by `python -m pipeline.run`). A search field (number and short text), "nur Positionen mit Hinweis" and an order (as in the list, marked items first, largest quantity first) work on the rows in the page.
 - "Live-Prüfung": a GAEB 90 (.D83, .D84, .D86), GAEB XML (.X83, .X84, .X86) or Excel (.xlsx) file, dropped or chosen, is sent to `POST /api/live` (raw body, its name in the header `X-File-Name`, at most 20 MB), read in memory by `pipeline/lv`, recalculated (counts only) and checked by B1 to B12 (`pipeline/base`). Nothing is written to disk. For a GAEB 90 file every note carries the record lines of its cited items as they stand in the file ("GAEB-Satz zeigen"); a price record (23, 30) comes as a line that says it is not shown. PDF lists go through `python -m pipeline.run`.
 - "Treffer anzeigen" (views "Fund" and "Prüfen"): `GET /api/evidence/<finding id>` gives where the search terms of the finding stand in the lists, read from `out/<project>/skeptic/evidence.json` of `python -m pipeline.run` (fixed keys; quantity and unit, no price; at most 80 hits shown).
 - "Vergleich": `out/diff/summary.json` of `python -m pipeline.run` as counts and item numbers; prices only as equal or not equal.
-- "Messung": `bench/results/bench.json` with the German texts of `bench/table.py`.
+- "Messung": `bench/results/bench.json` with the German texts of `bench/table.py`, and a box "Nicht gebaut" (price suggestions, what-if, text recognition, AVA link).
 
 ## Expert session (for Mert)
 

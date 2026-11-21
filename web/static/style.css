@@ -1,31 +1,102 @@
-/* LV-Prüfstand: light theme for the projector. Smallest font size: 18px. System fonts only, no outside resource.
-   One scale for the whole page: spacing in steps of 4px, corners 10px to 18px, soft shadows, one accent colour. */
+/* LV-Prüfstand: a warm dark design by default (white strains the eyes on a long day), a light one by the
+   button in the header (for a weak projector). Smallest font size: 18px. System fonts only, no outside
+   resource. One scale for the whole page: spacing in steps of 4px, corners 10px to 18px, soft shadows.
+   Warm ink, one clay accent; titles and the statements of a finding stand in a serif face. */
 :root {
-  color-scheme: light;
-  --ink: #0f172a;
-  --ink-2: #1e293b;
-  --muted: #475569;
-  --faint: #64748b;
-  --line: #e2e8f0;
-  --line-strong: #cbd5e1;
-  --paper: #ffffff;
-  --canvas: #f8fafc;
-  --soft: #f1f5f9;
-  --accent: #2563eb;
-  --accent-ink: #1d4ed8;
-  --accent-soft: #eff6ff;
-  --accent-ring: rgba(37, 99, 235, 0.18);
-  --confirmed: #15803d;
-  --confirmed-soft: #dcfce7;
-  --rejected: #b91c1c;
-  --rejected-soft: #fee2e2;
-  --unclear: #b45309;
-  --unclear-soft: #fef3c7;
-  --quote: #fffbeb;
-  --quote-line: #f59e0b;
-  --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 4px 14px rgba(15, 23, 42, 0.06);
-  --shadow-lift: 0 2px 6px rgba(15, 23, 42, 0.06), 0 14px 34px rgba(15, 23, 42, 0.10);
+  color-scheme: dark;
+  --ink: #f5f4ef;
+  --ink-2: #e8e6dc;
+  --muted: #b9b6aa;
+  --faint: #a19e93;
+  --line: #3a3835;
+  --line-strong: #5a5750;
+  --paper: #1f1e1d;
+  --raised: #2a2927;
+  --canvas: #262624;
+  --soft: #34322f;
+  --field: #191817;
+  --hover: rgba(255, 255, 255, 0.06);
+  --tab-active: #4a4741;
+  --knob: #ffffff;
+  --accent: #d97757;
+  --accent-ink: #eb9a80;
+  --accent-soft: rgba(217, 119, 87, 0.16);
+  --accent-line: rgba(217, 119, 87, 0.5);
+  --accent-ring: rgba(217, 119, 87, 0.4);
+  --confirmed: #86c9a2;
+  --confirmed-soft: rgba(134, 201, 162, 0.14);
+  --confirmed-line: rgba(134, 201, 162, 0.42);
+  --rejected: #f09086;
+  --rejected-soft: rgba(240, 144, 134, 0.14);
+  --rejected-line: rgba(240, 144, 134, 0.42);
+  --unclear: #e6bd62;
+  --unclear-soft: rgba(230, 189, 98, 0.14);
+  --unclear-line: rgba(230, 189, 98, 0.42);
+  --info: #93bbe2;
+  --info-soft: rgba(147, 187, 226, 0.14);
+  --info-line: rgba(147, 187, 226, 0.42);
+  --message-ink: #f0d9a0;
+  --error-ink: #f6b8b1;
+  --quote: rgba(230, 189, 98, 0.1);
+  --quote-line: #d9a441;
+  --cell-empty: #343230;
+  --cell-diag: #47443f;
+  --cell-handover: #7c786e;
+  --cell-high: #e0695c;
+  --cell-medium: #e6bd62;
+  --cell-info: #7fabd6;
+  --cell-ink: #1f1e1d;
+  --stripe: rgba(255, 255, 255, 0.32);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 6px 18px rgba(0, 0, 0, 0.22);
+  --shadow-lift: 0 2px 6px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.38);
+  --serif: "Tiempos Text", Charter, "Iowan Old Style", "Sitka Text", Cambria, Georgia, serif;
   --radius: 14px;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --ink: #141413;
+  --ink-2: #2b2a27;
+  --muted: #5e5d59;
+  --faint: #73726c;
+  --line: #e8e6dc;
+  --line-strong: #d1cfc5;
+  --paper: #ffffff;
+  --raised: #ffffff;
+  --canvas: #faf9f5;
+  --soft: #f0eee6;
+  --field: #ffffff;
+  --hover: rgba(255, 255, 255, 0.7);
+  --tab-active: #ffffff;
+  --accent: #c96442;
+  --accent-ink: #a14a2c;
+  --accent-soft: #fbf0ea;
+  --accent-line: #efd2c5;
+  --accent-ring: rgba(201, 100, 66, 0.24);
+  --confirmed: #2d6a4f;
+  --confirmed-soft: #e4f1e8;
+  --confirmed-line: #bfdccb;
+  --rejected: #b3261e;
+  --rejected-soft: #fbe9e7;
+  --rejected-line: #f1c6c1;
+  --unclear: #8a5a00;
+  --unclear-soft: #fbf1d3;
+  --unclear-line: #ead9a3;
+  --info: #2f5f8f;
+  --info-soft: #e7eff7;
+  --info-line: #c3d6e8;
+  --message-ink: #5c3c00;
+  --error-ink: #7a1a14;
+  --quote: #fdf6e3;
+  --cell-empty: #f3f1ea;
+  --cell-diag: #e8e6dc;
+  --cell-handover: #d1cfc5;
+  --cell-high: #eda59c;
+  --cell-medium: #f0cf73;
+  --cell-info: #b5cfe6;
+  --cell-ink: #3b1f14;
+  --stripe: rgba(255, 255, 255, 0.7);
+  --shadow: 0 1px 2px rgba(20, 20, 19, 0.04), 0 4px 14px rgba(20, 20, 19, 0.05);
+  --shadow-lift: 0 2px 6px rgba(20, 20, 19, 0.05), 0 14px 34px rgba(20, 20, 19, 0.09);
 }
 * { box-sizing: border-box; }
 html { font-size: 20px; }
@@ -49,7 +120,7 @@ kbd {
   border-bottom-width: 2px;
   border-radius: 6px;
   padding: 0 7px;
-  background: var(--paper);
+  background: var(--soft);
   color: var(--ink);
 }
 [hidden] { display: none !important; }
@@ -68,9 +139,10 @@ kbd {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 24px;
-  font-weight: 750;
-  letter-spacing: -0.01em;
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
   margin: 0;
   white-space: nowrap;
 }
@@ -83,8 +155,8 @@ kbd {
   background:
     linear-gradient(90deg, transparent 0 45%, rgba(255, 255, 255, 0.85) 45% 55%, transparent 55%),
     linear-gradient(0deg, transparent 0 45%, rgba(255, 255, 255, 0.85) 45% 55%, transparent 55%),
-    linear-gradient(135deg, #2563eb, #4f46e5);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+    linear-gradient(135deg, #d97757, #c96442);
+  box-shadow: 0 2px 8px rgba(201, 100, 66, 0.35);
 }
 .project {
   margin: 0;
@@ -116,19 +188,33 @@ kbd {
   cursor: pointer;
   white-space: nowrap;
 }
-.tab:hover { color: var(--ink); background: rgba(255, 255, 255, 0.7); }
-.tab.active { background: var(--paper); color: var(--ink); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08), 0 2px 8px rgba(15, 23, 42, 0.08); }
+.tab:hover { color: var(--ink); background: var(--hover); }
+.tab.active { background: var(--tab-active); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.1); }
+.theme-toggle {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--raised);
+  color: var(--muted);
+  cursor: pointer;
+}
+.theme-toggle:hover { color: var(--accent-ink); border-color: var(--accent); }
 
 #messages { padding: 0 24px; }
 .message {
   margin: 12px 0 0;
   padding: 10px 16px;
   border-radius: 12px;
-  border: 1px solid #fcd34d;
+  border: 1px solid var(--unclear-line);
   background: var(--unclear-soft);
-  color: #78350f;
+  color: var(--message-ink);
 }
-.message.error { border-color: #fca5a5; background: var(--rejected-soft); color: #7f1d1d; }
+.message.error { border-color: var(--rejected-line); background: var(--rejected-soft); color: var(--error-ink); }
 
 main { padding: 20px 24px 40px; }
 
@@ -140,10 +226,10 @@ main { padding: 20px 24px 40px; }
   padding: 5px 14px;
   border: 1px solid var(--line-strong);
   border-radius: 10px;
-  background: var(--paper);
+  background: var(--raised);
   color: var(--ink-2);
   cursor: pointer;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 1px 2px rgba(20, 20, 19, 0.05);
 }
 .export-button::before { content: "\2193"; margin-right: 8px; color: var(--accent); font-weight: 700; }
 .export-button:hover, .source button:hover, .queue-nav button:hover { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-soft); }
@@ -160,7 +246,7 @@ main { padding: 20px 24px 40px; }
   padding: 10px 14px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: var(--paper);
+  background: var(--raised);
   cursor: pointer;
   font-size: 18px;
 }
@@ -195,11 +281,11 @@ main { padding: 20px 24px 40px; }
   color: var(--ink-2);
   white-space: nowrap;
 }
-.badge.sev-high { border-color: #fecaca; background: var(--rejected-soft); color: var(--rejected); }
-.badge.sev-medium { border-color: #fde68a; background: var(--unclear-soft); color: var(--unclear); }
-.badge.st-confirmed { border-color: #bbf7d0; background: var(--confirmed-soft); color: var(--confirmed); }
-.badge.st-rejected { border-color: #fecaca; background: var(--rejected-soft); color: var(--rejected); }
-.badge.st-unclear { border-color: #fde68a; background: var(--unclear-soft); color: var(--unclear); }
+.badge.sev-high { border-color: var(--rejected-line); background: var(--rejected-soft); color: var(--rejected); }
+.badge.sev-medium { border-color: var(--unclear-line); background: var(--unclear-soft); color: var(--unclear); }
+.badge.st-confirmed { border-color: var(--confirmed-line); background: var(--confirmed-soft); color: var(--confirmed); }
+.badge.st-rejected { border-color: var(--rejected-line); background: var(--rejected-soft); color: var(--rejected); }
+.badge.st-unclear { border-color: var(--unclear-line); background: var(--unclear-soft); color: var(--unclear); }
 
 /* As many cards side by side as fit with at least 340px each; a card never gets narrower than that. */
 .sources { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
@@ -208,7 +294,7 @@ main { padding: 20px 24px 40px; }
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 14px 18px 16px;
-  background: var(--paper);
+  background: var(--raised);
   box-shadow: var(--shadow);
 }
 /* A long word (trade name, short text without spaces) breaks inside the card instead of running past its edge. */
@@ -226,7 +312,7 @@ main { padding: 20px 24px 40px; }
 .euro { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line-strong); }
 .euro p { margin: 0 0 6px; }
 .euro-field { display: flex; flex-direction: column; gap: 4px; font-size: 18px; color: var(--muted); }
-.euro-field input { padding: 7px 12px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--paper); width: 100%; max-width: 320px; color: var(--ink); }
+.euro-field input { padding: 7px 12px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--field); width: 100%; max-width: 320px; color: var(--ink); }
 .euro-result { min-height: 30px; font-weight: 700; margin-top: 6px; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
 .euro-result.ok { color: var(--confirmed); }
 .euro-result.error { color: var(--rejected); }
@@ -235,7 +321,7 @@ main { padding: 20px 24px 40px; }
 .page-panel { margin-top: 12px; }
 .page-panel img { display: block; max-width: 100%; border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); }
 .page-panel p { color: var(--muted); }
-.statement { font-size: 22px; color: var(--ink); }
+.statement { font-family: var(--serif); font-size: 23px; line-height: 1.45; color: var(--ink); font-variant-numeric: lining-nums; }
 .held-note { margin-top: 18px; padding: 10px 16px; border: 1px dashed var(--line-strong); border-radius: 12px; background: var(--canvas); color: var(--muted); }
 .review-summary { margin-top: 8px; }
 
@@ -247,7 +333,7 @@ main { padding: 20px 24px 40px; }
   padding: 5px 14px;
   border: 1px solid var(--line-strong);
   border-radius: 10px;
-  background: var(--paper);
+  background: var(--raised);
   color: var(--ink-2);
   cursor: pointer;
 }
@@ -272,15 +358,15 @@ main { padding: 20px 24px 40px; }
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 2px 16px;
-  background: var(--paper);
+  background: var(--raised);
 }
 .counter .number { font-size: 24px; font-weight: 750; line-height: 1.25; font-variant-numeric: tabular-nums; }
 .counter .label { font-size: 18px; color: var(--muted); }
-.counter.confirmed { border-color: #bbf7d0; background: var(--confirmed-soft); }
+.counter.confirmed { border-color: var(--confirmed-line); background: var(--confirmed-soft); }
 .counter.confirmed .number { color: var(--confirmed); }
-.counter.rejected { border-color: #fecaca; background: var(--rejected-soft); }
+.counter.rejected { border-color: var(--rejected-line); background: var(--rejected-soft); }
 .counter.rejected .number { color: var(--rejected); }
-.counter.unclear { border-color: #fde68a; background: var(--unclear-soft); }
+.counter.unclear { border-color: var(--unclear-line); background: var(--unclear-soft); }
 .counter.unclear .number { color: var(--unclear); }
 .counter.held { border-style: dashed; border-color: var(--line-strong); background: var(--canvas); }
 .switch { display: flex; align-items: center; gap: 12px; cursor: pointer; }
@@ -305,8 +391,8 @@ main { padding: 20px 24px 40px; }
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--paper);
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.3);
+  background: var(--knob);
+  box-shadow: 0 1px 3px rgba(20, 20, 19, 0.3);
   transition: transform 0.15s ease;
 }
 .switch input:checked { background: var(--accent); }
@@ -351,7 +437,7 @@ main { padding: 20px 24px 40px; }
   padding: 5px 18px;
   border: 2px solid var(--line-strong);
   border-radius: 12px;
-  background: var(--paper);
+  background: var(--raised);
   cursor: pointer;
 }
 .status-button.confirmed { border-color: var(--confirmed); color: var(--confirmed); }
@@ -360,9 +446,9 @@ main { padding: 20px 24px 40px; }
 .status-button.confirmed:hover { background: var(--confirmed-soft); }
 .status-button.rejected:hover { background: var(--rejected-soft); }
 .status-button.unclear:hover { background: var(--unclear-soft); }
-.status-button.confirmed.active { background: var(--confirmed); color: var(--paper); box-shadow: 0 4px 14px rgba(21, 128, 61, 0.3); }
-.status-button.rejected.active { background: var(--rejected); color: var(--paper); box-shadow: 0 4px 14px rgba(185, 28, 28, 0.3); }
-.status-button.unclear.active { background: var(--unclear); color: var(--paper); box-shadow: 0 4px 14px rgba(180, 83, 9, 0.3); }
+.status-button.confirmed.active { background: var(--confirmed); color: var(--paper); box-shadow: 0 4px 14px rgba(45, 106, 79, 0.3); }
+.status-button.rejected.active { background: var(--rejected); color: var(--paper); box-shadow: 0 4px 14px rgba(179, 38, 30, 0.3); }
+.status-button.unclear.active { background: var(--unclear); color: var(--paper); box-shadow: 0 4px 14px rgba(138, 90, 0, 0.3); }
 .status-button kbd { margin-left: 6px; }
 .status-button.active kbd { color: var(--ink); border-color: transparent; }
 .field { display: flex; flex-direction: column; gap: 4px; font-size: 18px; font-weight: 600; color: var(--muted); }
@@ -370,7 +456,7 @@ main { padding: 20px 24px 40px; }
   padding: 6px 12px;
   border: 1px solid var(--line-strong);
   border-radius: 10px;
-  background: var(--paper);
+  background: var(--field);
   width: 100%;
   color: var(--ink);
   font-weight: 400;

@@ -67,6 +67,7 @@ function euroEffect(quantity, unit, priceText) {
   const STATUS = { confirmed: "bestätigt", rejected: "verworfen", unclear: "unklar", open: "offen" };
   const KEYS = { b: "confirmed", v: "rejected", u: "unclear" };
   const BY_STORE = "lv-pruefstand-geprueft-von";
+  const THEME_STORE = "lv-pruefstand-design";
   const VIEWS = ["bauwerk", "fund", "pruefen", "einzel", "live", "vergleich", "messung"];
 
   const state = {
@@ -625,7 +626,19 @@ function euroEffect(quantity, unit, priceText) {
     openFinding(id) { state.fundId = id; showView("fund"); },
   };
 
+  /* The design: dark by default, light by the button in the header; the choice is kept in this browser. */
+  function applyTheme(name) {
+    if (name === "light") document.documentElement.setAttribute("data-theme", "light");
+    else document.documentElement.removeAttribute("data-theme");
+  }
+
   function start() {
+    try { applyTheme(localStorage.getItem(THEME_STORE)); } catch (error) { /* no storage */ }
+    $("theme-toggle").addEventListener("click", () => {
+      const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+      applyTheme(next);
+      try { localStorage.setItem(THEME_STORE, next); } catch (error) { /* no storage */ }
+    });
     try { $("by").value = localStorage.getItem(BY_STORE) || ""; } catch (error) { /* no storage */ }
     $("by").addEventListener("change", () => {
       try { localStorage.setItem(BY_STORE, $("by").value); } catch (error) { /* no storage */ }

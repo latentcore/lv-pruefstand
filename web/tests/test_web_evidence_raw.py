@@ -187,3 +187,15 @@ def test_a_broken_excel_upload_says_why_in_german(real):
     assert answer.json()["error"] == ("Die Datei liste.xlsx kann nicht als Excel-Liste gelesen werden "
                                       "(keine Excel-Arbeitsmappe (.xlsx)).")
 
+
+# ---- Saturday night, part 2: Einzel-LV filter and order, the box "Nicht gebaut" ----
+
+def test_einzel_lv_has_search_only_marked_and_order_and_messung_says_what_is_not_built():
+    with open(os.path.join(ROOT, "web", "static", "views.js"), encoding="utf-8") as handle:
+        script = handle.read()
+    for words in ('id: "lv-search"', '"nur Positionen mit Hinweis"', '"Reihenfolge der Liste"', '"Positionen mit Hinweis zuerst"',
+                  '"Menge, größte zuerst"', '"Nicht gebaut"', "Kein Kalkulator hat die Funde während der Veranstaltung geprüft"):
+        assert words in script, words
+    # Filter and order work on the rows in the page: the list is asked from the server once.
+    assert script.count('getJSON("/api/lv/"') == 1
+

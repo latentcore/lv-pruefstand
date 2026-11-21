@@ -219,8 +219,11 @@ def test_typed_price_is_not_stored_and_not_sent_by_the_page_script():
     for word in ("XMLHttpRequest", "sendBeacon", "WebSocket", "EventSource", "sessionStorage", "indexedDB",
                  "document.cookie", ".submit("):
         assert word not in script, word
-    # The only stored value is the name of the reviewer, as before.
-    assert re.findall(r"localStorage\.(\w+)\(([\w$]+)", script) == [("getItem", "BY_STORE"), ("setItem", "BY_STORE")]
+    # The stored values are the name of the reviewer, as before, and since Saturday night the chosen design
+    # ("light" or "dark"): no price.
+    assert re.findall(r"localStorage\.(\w+)\(([\w$]+)", script) == [
+        ("getItem", "THEME_STORE"), ("setItem", "THEME_STORE"), ("getItem", "BY_STORE"), ("setItem", "BY_STORE")]
+    assert 'localStorage.setItem(THEME_STORE, next)' in script and 'const next = document.documentElement' in script
     # The body of a review holds the five values it held before; no unit price.
     body = re.search(r"const body = \{(.*?)\};", script, re.S).group(1)
     assert re.findall(r"(\w+):", body) == ["status", "comment", "eur_estimate", "by", "project"]

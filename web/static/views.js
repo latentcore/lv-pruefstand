@@ -299,7 +299,41 @@
           tile(doc.findings_total, "Hinweise der Grundprüfungen B1–B12"));
         const checks = el("p", { class: "muted", text: doc.checks.map((c) => c.check + ": " + c.findings).join(" · ") ||
           "Keine Hinweise der Grundprüfungen." });
-        detail.replaceChildren(tiles, checks, itemTable(doc.rows, doc.findings, doc.rows_total));
+        const marks = marksByItem(doc.findings);
+        const flagged = (row) => row.kind !== "heading" && row.kind !== "preliminary_note" &&
+          (marks[row.item_no] || []).length > 0;
+        const search = el("input", { type: "search", id: "lv-search", placeholder: "z. B. Estrich oder 11.3", autocomplete: "off" });
+        const only = el("input", { type: "checkbox", id: "lv-only" });
+        const order = el("select", { id: "lv-order" },
+          el("option", { value: "file", text: "Reihenfolge der Liste" }),
+          el("option", { value: "marks", text: "Positionen mit Hinweis zuerst" }),
+          el("option", { value: "quantity", text: "Menge, größte zuerst" }));
+        const shown = el("span", { class: "shown" });
+        const tableBox = el("div");
+        const amount = (row) => (typeof row.quantity === "number" ? row.quantity : -1);
+        /* Filter and order work on the rows already in the page; nothing is asked from the server again. */
+        const draw = () => {
+          const words = search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+          let rows = doc.rows.filter((row) => {
+            if (only.checked && !flagged(row)) return false;
+            const text = ((row.item_no || "") + " " + (row.short_text || "")).toLowerCase();
+            return words.every((word) => text.includes(word));
+          });
+          if (order.value === "marks") rows = rows.filter(flagged).concat(rows.filter((row) => !flagged(row)));
+          else if (order.value === "quantity") rows = rows.slice().sort((a, b) => amount(b) - amount(a));
+          shown.textContent = "Gezeigt: " + rows.length + " von " + doc.rows.length + " Einträgen";
+          tableBox.replaceChildren(itemTable(rows, doc.findings, rows.length));
+        };
+        for (const control of [search, only, order]) control.addEventListener("input", draw);
+        const tools = el("div", { class: "lv-tools" },
+          el("label", { class: "field" }, "Suchen in Nummer und Kurztext", search),
+          el("label", { class: "field narrow" }, "Sortierung", order),
+          el("label", { class: "only" }, only, "nur Positionen mit Hinweis"),
+          shown);
+        const cut = doc.rows_total > doc.rows.length
+          ? el("p", { class: "muted", text: "Geladen: " + doc.rows.length + " von " + doc.rows_total + " Einträgen der Liste." }) : null;
+        detail.replaceChildren(...[tiles, checks, tools, tableBox, cut].filter(Boolean));
+        draw();
       } catch (error) {
         message(detail, "Die Liste konnte nicht geladen werden: " + error.message, "error");
       }
@@ -473,7 +507,15 @@
       el("p", { class: "muted", text: "Messlauf vom " + String(answer.measured_at || "").replace("T", " ") +
         ". Die Schwellen standen vor dem ersten Lauf fest (docs/PREREG.md). Jedes Ergebnis steht, wie es herauskam, " +
         "auch unter der Schwelle. M7 zählt Fehler, die wir selbst eingebaut haben." }),
-      el("div", { class: "table-card" }, table));
+      el("div", { class: "table-card" }, table),
+      el("section", { class: "card not-built" }, el("h3", { text: "Nicht gebaut" }),
+        el("ul", {},
+          el("li", { text: "Preisvorschläge und Zuschläge aus Altprojekten: Es lag keine Kostenhistorie vor, und wir raten keine Preise." }),
+          el("li", { text: "Was-wäre-wenn-Rechnungen (Materialpreise, Alternativen)." }),
+          el("li", { text: "Texterkennung für gescannte PDF: Gelesen werden nur PDF mit Text." }),
+          el("li", { text: "Anbindung an eine AVA-Software und Benutzerkonten." })),
+        el("p", { class: "muted", text: "Kein Kalkulator hat die Funde während der Veranstaltung geprüft (M5). " +
+          "Jeder Fund ist eine Frage, keine Behauptung." })));
   }
 
   window.LVViews = {
