@@ -2,6 +2,8 @@
 
 TUM.ai Construction Hackathon (20-22 Nov 2026, Garching), team Cowork, Challenge A.
 
+**Live demo:** https://arda03sarikaya-byte.github.io/lv-pruefstand-demo/ (runs in the browser, no install; it shows a made-up sample project, because the organizer data stays private).
+
 LV-Prüfstand reads all bills of quantities (Leistungsverzeichnisse) of one building as a single project and finds errors *between* the documents: work that two trades both price, a contradiction between two lists, a gap that no list covers. Every finding carries verbatim quotes from the sources, every quote is checked by code against its source, and the arithmetic of priced GAEB files is recomputed by code; a person confirms or rejects what is shown. The screen shows the building as a trade matrix ("Bauwerk"), every finding with its quotes and its source page ("Fund"), the review ("Prüfen"), each list with its base checks ("Einzel-LV"), a live check of a GAEB file dropped into the page ("Live-Prüfung"), the tender-against-order and twin comparisons ("Vergleich") and the measurements ("Messung").
 
 ## What this repository holds, and what it does not
